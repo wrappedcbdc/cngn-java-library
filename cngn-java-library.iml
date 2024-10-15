@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="muquit.libsodiumjna.libsodium.jna" level="project" />
+    <orderEntry type="library" name="net.java.dev.jna" level="project" />
+    <orderEntry type="library" name="okio-3.9.1" level="project" />
+    <orderEntry type="library" name="web3j.core" level="project" />
+    <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="bouncycastle.bcpkix.jdk15on" level="project" />
+    <orderEntry type="library" name="google.crypto.tink" level="project" />
+    <orderEntry type="library" name="bitcoinj.core" level="project" />
+    <orderEntry type="library" name="ch.qos.logback.classic" level="project" />
+  </component>
+</module>
