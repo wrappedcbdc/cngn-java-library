@@ -1,0 +1,43 @@
+<component name="libraryTable">
+  <library name="web3j.core" type="repository">
+    <properties maven-id="org.web3j:core:5.0.0" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/core-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/abi-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/utils-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk15on-1.65.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/crypto-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rlp-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/tuples-5.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-unixsocket-0.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-ffi-2.1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jffi-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jffi-1.2.16-native.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-commons-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-analysis-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-tree-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/asm-util-5.0.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-a64asm-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-x86asm-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-constants-0.9.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-enxio-0.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jnr-posix-3.0.47.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/okhttp-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/okio-2.4.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-common-1.3.50.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kotlin-stdlib-1.3.61.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/annotations-13.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/logging-interceptor-4.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/rxjava-2.2.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/reactive-streams-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Java-WebSocket-1.3.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-databind-2.8.11.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-annotations-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jackson-core-2.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.25.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

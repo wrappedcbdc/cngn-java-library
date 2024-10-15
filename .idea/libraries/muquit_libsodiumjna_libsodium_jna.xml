@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="muquit.libsodiumjna.libsodium.jna" type="repository">
+    <properties maven-id="com.muquit.libsodiumjna:libsodium-jna:1.0.5" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/libsodium-jna-1.0.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-5.14.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-1.7.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

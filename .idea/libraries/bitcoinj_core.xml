@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="bitcoinj.core" type="repository">
+    <properties maven-id="org.bitcoinj:bitcoinj-core:0.17-alpha5" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/bitcoinj-core-0.17-alpha5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk15to18-1.78.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-33.1.0-android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/failureaccess-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/checker-qual-3.42.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.26.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/j2objc-annotations-3.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/protobuf-javalite-4.26.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/slf4j-api-2.0.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcip-annotations-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
