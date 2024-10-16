@@ -17,11 +17,11 @@ public class CNGNManger {
     }
 
     public JSONArray getBalance() {
-        return ServiceController.makeCallsGET(GET_BALANCE, merchantService);
+        return ServiceController.makeCalls(GET_BALANCE, merchantService);
     }
 
     public JSONArray getTransactionHistory() {
-        return ServiceController.makeCallsGET(TRANSACTIONS, merchantService);
+        return ServiceController.makeCalls(TRANSACTIONS, merchantService);
     }
 
     public JSONObject swap(int amount, String address, Network network) {
@@ -29,7 +29,7 @@ public class CNGNManger {
         payload.put("amount", amount);
         payload.put("address", address);
         payload.put("network", network.toString().toLowerCase());
-        return ServiceController.makeCallsPOST(SWAP, merchantService, payload);
+        return ServiceController.makeCalls(SWAP, merchantService, payload);
     }
 
     public JSONObject deposit(int amount, String bank, String accountNumber) {
@@ -37,13 +37,13 @@ public class CNGNManger {
         payload.put("amount", amount);
         payload.put("bank", bank);
         payload.put("accountNumber", accountNumber);
-        return ServiceController.makeCallsPOST(DEPOSIT, merchantService, payload);
+        return ServiceController.makeCalls(DEPOSIT, merchantService, payload);
     }
 
     public JSONObject createVirtualAccount(String provider) {
         JSONObject payload = new JSONObject();
         payload.put("provider", provider);
-        return ServiceController.makeCallsPOST(CREATE_VIRTUAL_ACCOUNT, merchantService, payload);
+        return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, merchantService, payload);
     }
 
     public JSONObject whiteList(String bscAddress, String bankName, String bankAccountNumber) {
@@ -51,7 +51,7 @@ public class CNGNManger {
         payload.put("bscAddress", bscAddress);
         payload.put("bankName", bankName);
         payload.put("bankAccountNumber", bankAccountNumber);
-        return ServiceController.makeCallsPOST(WHITELIST_ADDRESS, merchantService, payload);
+        return ServiceController.makeCalls(WHITELIST_ADDRESS, merchantService, payload);
     }
 
     public JSONObject generateWalletAddress(Network network) {
