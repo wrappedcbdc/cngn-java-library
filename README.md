@@ -31,6 +31,15 @@ import util.Network;
 import org.json.JSONArray;
 import org.json.JSONObject`
 
+
+Initialize with credentials 
+Add the following params
+api-key
+private-key
+encryption-key
+
+`CNGNManager cngnManager = new CNGNManger("api-key", "private-key", "encryption-key");`
+
 Available Methods
 
 
