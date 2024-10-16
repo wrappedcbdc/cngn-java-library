@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class ServiceController {
 
-    public static JSONArray makeCallsGET(String URL, MerchantService merchantService) {
+    public static JSONArray makeCalls(String URL, MerchantService merchantService) {
         if (isNull(merchantService)) {
             return new JSONArray().put(new JSONObject().put("exception", "Invalid merchant service details"));
         }
@@ -45,7 +45,7 @@ public class ServiceController {
         }
     }
 
-    public static JSONObject makeCallsPOST(String URL, MerchantService merchantService, JSONObject params) {
+    public static JSONObject makeCalls(String URL, MerchantService merchantService, JSONObject params) {
         if (isNull(merchantService)) {
             return new JSONObject().put("exception", "Invalid merchant service details");
         }
