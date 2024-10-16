@@ -34,14 +34,14 @@ import org.json.JSONObject`
 
 Initialize with credentials 
 Add the following params
-api-key
-private-key
-encryption-key
+
+- [api-key](#api-key)
+- [private-key](#private-key)
+- [encryption-key](#encryption-key)
 
 `CNGNManager cngnManager = new CNGNManger("api-key", "private-key", "encryption-key");`
 
 Available Methods
-
 
 Get Balance
 
