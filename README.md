@@ -91,7 +91,7 @@ Types
 This library uses Java objects for API parameters and return types, such as JSONObject and JSONArray for JSON data, and Network enum for specifying networks.
 
 Security
-This library employs AES encryption for request payloads and Ed25519 decryption for response data. Keep your encryptionKey and privateKey secure to maintain API security.
+This library employs AES encryption for request payloads and Ed25519 decryption for response data. Keep your encryptionKey and privateKey secure to maintain API security..
 
 Contributing
 Contributions, issues, and feature requests are welcome. Please check the issues page on GitHub to see where you can help.
