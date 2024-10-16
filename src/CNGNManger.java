@@ -8,13 +8,7 @@ import wallet.CryptoWallet;
 import static util.Constants.*;
 
 public class CNGNManger {
-    private static String ed25519PrivateKey = "-----BEGIN OPENSSH PRIVATE KEY-----\n" +
-            "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\n" +
-            "QyNTUxOQAAACB5B/qHuQCh8AseZlbgRmIfgPoy/6Wt/WSMGWVUORITQQAAAKDoHXUr6B11\n" +
-            "KwAAAAtzc2gtZWQyNTUxOQAAACB5B/qHuQCh8AseZlbgRmIfgPoy/6Wt/WSMGWVUORITQQ\n" +
-            "AAAEC2HqPVIi6SGnT0aFFfQV+cq34COXNaGPiHATR5uUuxZHkH+oe5AKHwCx5mVuBGYh+A\n" +
-            "+jL/pa39ZIwZZVQ5EhNBAAAAF29tb3RheW90ZW1pNDdAZ21haWwuY29tAQIDBAUG\n" +
-            "-----END OPENSSH PRIVATE KEY-----";
+   
     private MerchantService merchantService;
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
