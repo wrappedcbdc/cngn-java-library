@@ -77,7 +77,7 @@ The library supports multiple blockchain networks, grouped by their underlying c
 
 ### EVM (Ethereum Virtual Machine) Chains
 - `Network.BSC` - Binance Smart Chain Mainnet
-- `Network.ATC` - Atlantic Chain
+- `Network.ATC` - Asset Chain
 - `Network.ETH` - Ethereum Mainnet
 - `Network.MATIC` - Polygon (Previously Matic)
 
@@ -184,7 +184,7 @@ The `generateWalletAddress` method creates a new wallet address for any supporte
 JSONObject bscWallet = WalletManager.generateWalletAddress(Network.BSC);    // BSC address
 JSONObject ethWallet = WalletManager.generateWalletAddress(Network.ETH);    // Ethereum address
 JSONObject maticWallet = WalletManager.generateWalletAddress(Network.MATIC); // Polygon address
-JSONObject atcWallet = WalletManager.generateWalletAddress(Network.ATC);    // Atlantic Chain address
+JSONObject atcWallet = WalletManager.generateWalletAddress(Network.ATC);    // Asset Chain address
 
 // Bantu/Stellar-based Chain (returns G-prefixed addresses)
 JSONObject xbnWallet = WalletManager.generateWalletAddress(Network.XBN);    // XBN address
