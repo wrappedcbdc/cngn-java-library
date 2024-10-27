@@ -1,15 +1,11 @@
 package dao;
 
-import jnr.constants.Constant;
-import org.json.JSONObject;
-import util.Constants;
-
-public class MerchantService {
+public class Secrets {
     private String apiKey;
     private String privateKey;
     private String encryptionKey;
 
-    public MerchantService(String apiKey, String privateKey, String encryptionKey) {
+    public Secrets(String apiKey, String privateKey, String encryptionKey) {
         this.apiKey = apiKey;
         this.privateKey = privateKey;
         this.encryptionKey = encryptionKey;

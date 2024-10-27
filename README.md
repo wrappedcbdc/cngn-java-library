@@ -26,7 +26,7 @@ First, import the `CNGNManager` class and other necessary components:
 
 `java
 import controller.ServiceController;
-import dao.MerchantService;
+import dao.Secrets;
 import util.Network;
 import org.json.JSONArray;
 import org.json.JSONObject`

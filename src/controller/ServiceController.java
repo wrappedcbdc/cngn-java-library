@@ -1,7 +1,7 @@
 package controller;
 
 import dao.AESEncryptionResponse;
-import dao.MerchantService;
+import dao.Secrets;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class ServiceController {
 
-    public static JSONArray makeCallsGET(String URL, MerchantService merchantService) {
+    public static JSONArray makeCalls(String URL, Secrets merchantService) {
         if (isNull(merchantService)) {
             return new JSONArray().put(new JSONObject().put("exception", "Invalid merchant service details"));
         }
@@ -45,7 +45,7 @@ public class ServiceController {
         }
     }
 
-    public static JSONObject makeCallsPOST(String URL, MerchantService merchantService, JSONObject params) {
+    public static JSONObject makeCalls(String URL, Secrets merchantService, JSONObject params) {
         if (isNull(merchantService)) {
             return new JSONObject().put("exception", "Invalid merchant service details");
         }
@@ -97,7 +97,7 @@ public class ServiceController {
         return new JSONObject(Ed25519Crypto.decryptWithPrivateKey(privateKey, encryptedData));
     }
 
-    private static boolean isNull(MerchantService merchantService) {
+    private static boolean isNull(Secrets merchantService) {
         return merchantService.getPrivateKey() == null || merchantService.getPrivateKey().isBlank()
                 || merchantService.getApiKey() == null || merchantService.getApiKey().isBlank()
                 || merchantService.getEncryptionKey() == null || merchantService.getEncryptionKey().isBlank();

@@ -16,5 +16,17 @@
     <orderEntry type="library" name="google.crypto.tink" level="project" />
     <orderEntry type="library" name="bitcoinj.core" level="project" />
     <orderEntry type="library" name="ch.qos.logback.classic" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/lombok-1.18.28.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="eddsa-0.3.0" level="project" />
+    <orderEntry type="library" name="stellar-sdk-1.0.0-alpha0" level="project" />
+    <orderEntry type="library" name="io.nem.sdk.core" level="project" />
   </component>
 </module>
