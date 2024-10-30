@@ -158,7 +158,10 @@ System.out.println(depositResult);
 #### Create Virtual Account
 
 ```java
-MintParams mintParams = new MintParams("korapay","123");
+MintParams mintParams = new MintParams(
+"korapay", //provider
+"123"  //bankCode
+);
 JSONObject virtualAccount = manager.createVirtualAccount(mintParams);
 System.out.println(virtualAccount);
 ```
@@ -167,10 +170,10 @@ System.out.println(virtualAccount);
 
 ```java
 RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
-                1000,
-                "123",
-                "1234567890",
-                true
+                1000,     //amount
+                "123",      //bankCode
+                "1234567890",   //accountNumber
+                true //saveDetails
         );
 System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
 ```
@@ -178,8 +181,15 @@ System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParam
 #### Update External Account
 
 ```java
-UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress("0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b");
-        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails("Test Bank", "Test Account", "1234567890");
+UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
+"0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b" //bscAddress or any other chain
+);
+        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails(
+"Test Bank", //bankName
+ "Test Account", //bankAccountName
+ "1234567890" //bankAccountNumber
+
+);
 
  UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
 System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
