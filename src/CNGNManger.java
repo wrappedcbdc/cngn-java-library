@@ -11,6 +11,7 @@ import util.Network;
 import static util.Constants.*;
 
 public class CNGNManger {
+<<<<<<< HEAD
 
     private static String ed25519PrivateKey = "-----BEGIN OPENSSH PRIVATE KEY-----\n" +
             "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\n" +
@@ -21,6 +22,10 @@ public class CNGNManger {
             "-----END OPENSSH PRIVATE KEY-----";
 
     private Secrets secrets;
+=======
+   
+    private MerchantService merchantService;
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
         secrets = new Secrets(apiKey, privateKey, encryptionKey);
@@ -28,42 +33,76 @@ public class CNGNManger {
     }
 
     public JSONArray getBalance() {
+<<<<<<< HEAD
         return ServiceController.makeCalls(GET_BALANCE, secrets);
     }
 
     public JSONArray getTransactionHistory() {
         return ServiceController.makeCalls(TRANSACTIONS, secrets);
+=======
+        return ServiceController.makeCalls(GET_BALANCE, merchantService);
+    }
+
+    public JSONArray getTransactionHistory() {
+        return ServiceController.makeCalls(TRANSACTIONS, merchantService);
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject swap(SwapParams swapParams) {
         JSONObject payload = new JSONObject();
+<<<<<<< HEAD
         payload.put("amount", swapParams.getAmount());
         payload.put("address", swapParams.getAddress());
         payload.put("network", swapParams.getNetwork().toString().toLowerCase());
         return ServiceController.makeCalls(SWAP, secrets, payload);
+=======
+        payload.put("amount", amount);
+        payload.put("address", address);
+        payload.put("network", network.toString().toLowerCase());
+        return ServiceController.makeCalls(SWAP, merchantService, payload);
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject deposit(DepositParams depositParams) {
         JSONObject payload = new JSONObject();
+<<<<<<< HEAD
         payload.put("amount", depositParams.getAmount());
         payload.put("bank", depositParams.getBank());
         payload.put("accountNumber", depositParams.getAccountNumber());
         return ServiceController.makeCalls(DEPOSIT, secrets, payload);
+=======
+        payload.put("amount", amount);
+        payload.put("bank", bank);
+        payload.put("accountNumber", accountNumber);
+        return ServiceController.makeCalls(DEPOSIT, merchantService, payload);
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject createVirtualAccount(MintParams mintParams) {
         JSONObject payload = new JSONObject();
+<<<<<<< HEAD
         payload.put("provider", mintParams.getProvider());
         payload.put("bank_code", mintParams.getBankCode());
         return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, secrets, payload);
+=======
+        payload.put("provider", provider);
+        return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, merchantService, payload);
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject whiteList(WhiteListAddressParams whiteListAddressParams) {
         JSONObject payload = new JSONObject();
+<<<<<<< HEAD
         payload.put("bscAddress", whiteListAddressParams.getBscAddress());
         payload.put("bankName", whiteListAddressParams.getBankName());
         payload.put("bankAccountNumber", whiteListAddressParams.getBankAccountNumber());
         return ServiceController.makeCalls(WHITELIST_ADDRESS, secrets, payload);
+=======
+        payload.put("bscAddress", bscAddress);
+        payload.put("bankName", bankName);
+        payload.put("bankAccountNumber", bankAccountNumber);
+        return ServiceController.makeCalls(WHITELIST_ADDRESS, merchantService, payload);
+>>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject generateWalletAddress(Network network) {
