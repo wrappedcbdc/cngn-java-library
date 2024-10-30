@@ -12,21 +12,18 @@ import util.Network;
 import wallet.CryptoWallet;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class ServiceController {
 
-<<<<<<< HEAD
-    public static JSONArray makeCalls(String URL, Secrets merchantService) {
-=======
-    public static JSONArray makeCalls(String URL, MerchantService merchantService) {
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
-        if (isNull(merchantService)) {
+    public static JSONArray makeCalls(String URL, Secrets secrets) {
+        if (isNull(secrets)) {
             return new JSONArray().put(new JSONObject().put("exception", "Invalid merchant service details"));
         }
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .header("Authorization", "Bearer " + merchantService.getApiKey())
+                .header("Authorization", "Bearer " + secrets.getApiKey())
                 .url(URL)
                 .build();
 
@@ -40,7 +37,7 @@ public class ServiceController {
                     return new JSONArray().put(new JSONObject().put("error", resultStr));
                 }
             } else {
-                return parseSuccessResponseGET(resultStr, merchantService.getPrivateKey());
+                return parseSuccessResponseGET(resultStr, secrets.getPrivateKey());
             }
         } catch (IOException e) {
             return new JSONArray().put(new JSONObject().put("exception", "Network error: " + e.getMessage()));
@@ -49,17 +46,13 @@ public class ServiceController {
         }
     }
 
-<<<<<<< HEAD
-    public static JSONObject makeCalls(String URL, Secrets merchantService, JSONObject params) {
-=======
-    public static JSONObject makeCalls(String URL, MerchantService merchantService, JSONObject params) {
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
-        if (isNull(merchantService)) {
+    public static JSONObject makeCalls(String URL, Secrets secrets, JSONObject params) {
+        if (isNull(secrets)) {
             return new JSONObject().put("exception", "Invalid merchant service details");
         }
 
         try {
-            AESEncryptionResponse aesEncryptionResponse = AESCrypto.encrypt(params.toString(), merchantService.getEncryptionKey());
+            AESEncryptionResponse aesEncryptionResponse = AESCrypto.encrypt(params.toString(), secrets.getEncryptionKey());
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("content", aesEncryptionResponse.getContent());
             jsonObject.put("iv", aesEncryptionResponse.getIv());
@@ -68,7 +61,7 @@ public class ServiceController {
             RequestBody body = RequestBody.create(jsonObject.toString(), MediaType.parse("application/json; charset=utf-8"));
             Request request = new Request.Builder()
                     .url(URL)
-                    .header("Authorization", "Bearer " + merchantService.getApiKey())
+                    .header("Authorization", "Bearer " + secrets.getApiKey())
                     .post(body)
                     .build();
 
@@ -77,7 +70,44 @@ public class ServiceController {
                 if (response.code() != 200) {
                     return new JSONObject(resultStr);
                 } else {
-                    return parseSuccessResponsePOST(resultStr, merchantService.getPrivateKey());
+                    return parseSuccessResponsePOST(resultStr, secrets.getPrivateKey());
+                }
+            }
+        } catch (IOException e) {
+            return new JSONObject().put("exception", "Network error: " + e.getMessage());
+        } catch (JSONException e) {
+            return new JSONObject().put("exception", "JSON error: " + e.getMessage());
+        } catch (Exception e) {
+            return new JSONObject().put("exception", "Unexpected error: " + e.getMessage());
+        }
+    }
+
+    public static JSONObject makeCalls(String URL, Secrets secrets, Map<String, Object> params) {
+        JSONObject paramsJson = new JSONObject(params);
+        if (isNull(secrets)) {
+            return new JSONObject().put("exception", "Invalid merchant service details");
+        }
+
+        try {
+            AESEncryptionResponse aesEncryptionResponse = AESCrypto.encrypt(paramsJson.toString(4), secrets.getEncryptionKey());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("content", aesEncryptionResponse.getContent());
+            jsonObject.put("iv", aesEncryptionResponse.getIv());
+
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = RequestBody.create(jsonObject.toString(), MediaType.parse("application/json; charset=utf-8"));
+            Request request = new Request.Builder()
+                    .url(URL)
+                    .header("Authorization", "Bearer " + secrets.getApiKey())
+                    .post(body)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                String resultStr = response.body().string();
+                if (response.code() != 200) {
+                    return new JSONObject(resultStr);
+                } else {
+                    return parseSuccessResponsePOST(resultStr, secrets.getPrivateKey());
                 }
             }
         } catch (IOException e) {
@@ -105,9 +135,9 @@ public class ServiceController {
         return new JSONObject(Ed25519Crypto.decryptWithPrivateKey(privateKey, encryptedData));
     }
 
-    private static boolean isNull(Secrets merchantService) {
-        return merchantService.getPrivateKey() == null || merchantService.getPrivateKey().isBlank()
-                || merchantService.getApiKey() == null || merchantService.getApiKey().isBlank()
-                || merchantService.getEncryptionKey() == null || merchantService.getEncryptionKey().isBlank();
+    private static boolean isNull(Secrets secrets) {
+        return secrets.getPrivateKey() == null || secrets.getPrivateKey().isBlank()
+                || secrets.getApiKey() == null || secrets.getApiKey().isBlank()
+                || secrets.getEncryptionKey() == null || secrets.getEncryptionKey().isBlank();
     }
 }

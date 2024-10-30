@@ -13,11 +13,7 @@ public class WalletManager{
     }
 
     public static void main(String[] args) {
-
-        System.out.println("----------------------GENERATE WALLET-------------------------");
-        System.out.println("Generate Wallet Address : " + generateWalletAddress(Network.ETH));
-
-        System.out.println("----------------------END TEST-------------------------");
-
+        System.out.println("----------------------BEGIN TEST-------------------------");
+        System.out.println("WALLET DETAILS : "+ WalletManager.generateWalletAddress(Network.ETH));
     }
 }

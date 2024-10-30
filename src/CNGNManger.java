@@ -1,17 +1,16 @@
 import controller.ServiceController;
 import dao.Secrets;
-import dao.params.DepositParams;
-import dao.params.MintParams;
-import dao.params.SwapParams;
-import dao.params.WhiteListAddressParams;
+import dao.params.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import util.Network;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static util.Constants.*;
 
 public class CNGNManger {
-<<<<<<< HEAD
 
     private static String ed25519PrivateKey = "-----BEGIN OPENSSH PRIVATE KEY-----\n" +
             "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\n" +
@@ -22,10 +21,6 @@ public class CNGNManger {
             "-----END OPENSSH PRIVATE KEY-----";
 
     private Secrets secrets;
-=======
-   
-    private MerchantService merchantService;
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
         secrets = new Secrets(apiKey, privateKey, encryptionKey);
@@ -33,81 +28,74 @@ public class CNGNManger {
     }
 
     public JSONArray getBalance() {
-<<<<<<< HEAD
         return ServiceController.makeCalls(GET_BALANCE, secrets);
     }
 
     public JSONArray getTransactionHistory() {
         return ServiceController.makeCalls(TRANSACTIONS, secrets);
-=======
-        return ServiceController.makeCalls(GET_BALANCE, merchantService);
     }
 
-    public JSONArray getTransactionHistory() {
-        return ServiceController.makeCalls(TRANSACTIONS, merchantService);
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
+    public JSONArray getBanks() {
+        return ServiceController.makeCalls(GET_BANKS, secrets);
     }
 
     public JSONObject swap(SwapParams swapParams) {
         JSONObject payload = new JSONObject();
-<<<<<<< HEAD
         payload.put("amount", swapParams.getAmount());
         payload.put("address", swapParams.getAddress());
         payload.put("network", swapParams.getNetwork().toString().toLowerCase());
         return ServiceController.makeCalls(SWAP, secrets, payload);
-=======
-        payload.put("amount", amount);
-        payload.put("address", address);
-        payload.put("network", network.toString().toLowerCase());
-        return ServiceController.makeCalls(SWAP, merchantService, payload);
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject deposit(DepositParams depositParams) {
         JSONObject payload = new JSONObject();
-<<<<<<< HEAD
         payload.put("amount", depositParams.getAmount());
         payload.put("bank", depositParams.getBank());
         payload.put("accountNumber", depositParams.getAccountNumber());
         return ServiceController.makeCalls(DEPOSIT, secrets, payload);
-=======
-        payload.put("amount", amount);
-        payload.put("bank", bank);
-        payload.put("accountNumber", accountNumber);
-        return ServiceController.makeCalls(DEPOSIT, merchantService, payload);
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject createVirtualAccount(MintParams mintParams) {
         JSONObject payload = new JSONObject();
-<<<<<<< HEAD
         payload.put("provider", mintParams.getProvider());
         payload.put("bank_code", mintParams.getBankCode());
         return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, secrets, payload);
-=======
-        payload.put("provider", provider);
-        return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, merchantService, payload);
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
     public JSONObject whiteList(WhiteListAddressParams whiteListAddressParams) {
         JSONObject payload = new JSONObject();
-<<<<<<< HEAD
         payload.put("bscAddress", whiteListAddressParams.getBscAddress());
         payload.put("bankName", whiteListAddressParams.getBankName());
         payload.put("bankAccountNumber", whiteListAddressParams.getBankAccountNumber());
         return ServiceController.makeCalls(WHITELIST_ADDRESS, secrets, payload);
-=======
-        payload.put("bscAddress", bscAddress);
-        payload.put("bankName", bankName);
-        payload.put("bankAccountNumber", bankAccountNumber);
-        return ServiceController.makeCalls(WHITELIST_ADDRESS, merchantService, payload);
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
     }
 
-    public JSONObject generateWalletAddress(Network network) {
-        return ServiceController.createWallet(network);
+    public JSONObject redeemAssets(RedeemAssetParams redeemAssetParams) {
+        JSONObject payload = new JSONObject();
+        payload.put("amount", redeemAssetParams.getAmount());
+        payload.put("bankCode", redeemAssetParams.getBankCode());
+        payload.put("accountNumber", redeemAssetParams.getAccountNumber());
+        payload.put("saveDetails", redeemAssetParams.getSaveDetails());
+        return ServiceController.makeCalls(REDEEM_ASSETS, secrets, payload);
     }
+
+    public JSONObject updateExternalAccounts(UpdateExternalAccountParams updateExternalAccountParams) {
+        Map<String, Object> payload = new HashMap<>();
+
+        Map<String, String> walletAddressMap = new HashMap<>();
+        walletAddressMap.put("bscAddress", updateExternalAccountParams.getWalletAddress().getAddress());
+        // Add other chain addresses if needed
+
+        Map<String, String> bankDetailsMap = new HashMap<>();
+        bankDetailsMap.put("bankName", updateExternalAccountParams.getBankDetails().getBankName());
+        bankDetailsMap.put("bankAccountName", updateExternalAccountParams.getBankDetails().getBankAccountName());
+        bankDetailsMap.put("bankAccountNumber", updateExternalAccountParams.getBankDetails().getBankAccountNumber());
+
+        payload.put("walletAddress", walletAddressMap);
+        payload.put("bankDetails", bankDetailsMap);
+        return ServiceController.makeCalls(UPDATE_EXTERNAL_ACCOUNTS, secrets, payload);
+    }
+
 
 
     public static void main(String[] args) {
@@ -130,7 +118,7 @@ public class CNGNManger {
         System.out.println("----------------------SWAP-------------------------");
         SwapParams swapParams = new SwapParams(
                 1000,
-                "",
+                "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
                 Network.ETH);
         System.out.println("Swap : " + cngnManger.swap(swapParams));
 
@@ -149,6 +137,26 @@ public class CNGNManger {
         );
         System.out.println("Create Virtual Account : " + cngnManger.createVirtualAccount(mintParams));
 
+
+        System.out.println("----------------------REDEEM ASSETS-------------------------");
+        RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
+                1000,
+                "123",
+                "1234567890",
+                true
+        );
+        System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
+
+        System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
+        UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress("0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b");
+        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails("Test Bank", "Test Account", "1234567890");
+
+        UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
+        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+
+
+        System.out.println("----------------------GET BANKS-------------------------");
+        System.out.println("Get Banks : " + cngnManger.getBanks());
     }
 }
 

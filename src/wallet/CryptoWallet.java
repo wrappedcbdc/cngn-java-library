@@ -1,13 +1,13 @@
 package wallet;
 
 import com.google.gson.Gson;
+import org.apache.commons.codec.binary.Base32;
 import org.bitcoinj.base.Base58;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicHierarchy;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
 import org.stellar.sdk.KeyPair;
-import org.stellar.sdk.StrKey;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Hash;
 import org.web3j.crypto.MnemonicUtils;
@@ -20,8 +20,8 @@ import java.util.*;
 
 public class CryptoWallet {
 
-    private static final int MNEMONIC_ENTROPY_BYTES = 128;
-    private static final Map<Network, String> DERIVATION_PATHS = new HashMap<>();
+    public static final int MNEMONIC_ENTROPY_BYTES = 128;
+    public static final Map<Network, String> DERIVATION_PATHS = new HashMap<>();
 
     private String mnemonic;
     private String privateKey;
@@ -62,8 +62,9 @@ public class CryptoWallet {
     private void initializeXbnWallet() {
         byte[] seed = MnemonicUtils.generateSeed(this.mnemonic, "");
         ECKeyPair ecKeyPair = deriveKeyPairFromSeed(seed, DERIVATION_PATHS.get(Network.XBN));
-        this.address = getXbnAddressFromPublicKey(ecKeyPair.getPublicKey().toString(16));
-        this.privateKey =   StrKey.encodeEd25519PublicKey(this.address.getBytes());
+        KeyPair keyPair = KeyPair.fromSecretSeed(ecKeyPair.getPrivateKey().toByteArray());
+        this.address = keyPair.getAccountId();
+        this.privateKey = new String(keyPair.getSecretSeed());
     }
 
     private String getPublicKey(String privateKey) {
@@ -99,24 +100,27 @@ public class CryptoWallet {
     }
 
     String convertToTronAddress(String ethAddress) {
-            try {
-                // Generate the TRON address from the ECKeyPair derived public key
-                ECKeyPair ecKeyPair = ECKeyPair.create(Numeric.toBigInt(ethAddress));
-                byte[] tronAddressBytes = generateTronAddress(ecKeyPair);
+        try {
+            // Generate the TRON address from the ECKeyPair derived public key
+            ECKeyPair ecKeyPair = ECKeyPair.create(Numeric.toBigInt(ethAddress));
+            byte[] tronAddressBytes = generateTronAddress(ecKeyPair);
 
-                // Convert to Base58 format for the final TRON address
-                return Base58.encode(tronAddressBytes);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null; // Return null if there's an error
-            }
+            // Convert to Base58 format for the final TRON address
+            return Base58.encode(tronAddressBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Return null if there's an error
         }
+    }
 
     private String getXbnAddressFromPublicKey(String publicKey) {
-       byte[] hash = Hash.sha3(Numeric.hexStringToByteArray(publicKey));
+        byte[] hash = Hash.sha3(Numeric.hexStringToByteArray(publicKey));
         KeyPair keyPair = KeyPair.fromPublicKey(hash);
         return keyPair.getAccountId();
     }
+
+
+
 
     private ECKeyPair deriveKeyPairFromSeed(byte[] seed, String derivationPath) {
         DeterministicKey rootPrivateKey = HDKeyDerivation.createMasterPrivateKey(seed);
@@ -142,7 +146,7 @@ public class CryptoWallet {
 
     public String getWalletDetails() {
         Map<String, Object> walletDetails = new HashMap<>();
-        walletDetails.put("mnemonic", Arrays.asList(this.mnemonic.split(" ")));
+        walletDetails.put("mnemonic", this.mnemonic);
         walletDetails.put("privateKey", this.privateKey);
         walletDetails.put("address", this.address);
         walletDetails.put("network", this.network.name());
@@ -178,4 +182,5 @@ public class CryptoWallet {
 
         return tronAddressWithChecksum;
     }
+
 }
