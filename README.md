@@ -42,12 +42,7 @@ implementation 'com.cngn:cngn-java-library:1.0.0'
 
 First, import the necessary classes:
 
-<<<<<<< HEAD
-`java
-import controller.ServiceController;
-import dao.Secrets;
-import util.Network;
-=======
+
 ```java
 import com.cngn.CNGNManager;
 import com.cngn.WalletManager;
@@ -163,9 +158,37 @@ System.out.println(depositResult);
 #### Create Virtual Account
 
 ```java
-MintParams mintParams = new MintParams("korapay");
+MintParams mintParams = new MintParams("korapay","123");
 JSONObject virtualAccount = manager.createVirtualAccount(mintParams);
 System.out.println(virtualAccount);
+```
+
+#### Redeem Asset
+
+```java
+RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
+                1000,
+                "123",
+                "1234567890",
+                true
+        );
+System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
+```
+
+#### Update External Account
+
+```java
+UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress("0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b");
+        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails("Test Bank", "Test Account", "1234567890");
+
+ UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
+System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+```
+
+#### Fetch Banks
+
+```java
+System.out.println("Get Banks : " + cngnManger.getBanks());
 ```
 
 #### Whitelist Address
