@@ -12,10 +12,6 @@ import static util.Constants.*;
 
 public class CNGNManger {
 
-<<<<<<< HEAD
-=======
-
->>>>>>> af8385275f915024d63c853e11642b89493335b2
 
     private Secrets secrets;
 
