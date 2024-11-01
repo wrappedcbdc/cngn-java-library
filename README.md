@@ -30,6 +30,7 @@ Add the following dependency to your `pom.xml` if using Maven:
     <artifactId>cngn-java-library</artifactId>
     <version>1.0.0</version>
 </dependency>
+
 ```
 
 Or in your `build.gradle` if using Gradle:
