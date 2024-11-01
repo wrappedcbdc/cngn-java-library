@@ -190,17 +190,6 @@ System.out.println("Update External Accounts " + cngnManger.updateExternalAccoun
 System.out.println("Get Banks : " + cngnManger.getBanks());
 ```
 
-#### Whitelist Address
-
-```java
-WhiteListAddressParams whitelistParams = new WhiteListAddressParams(
-    "0x1234...",      // bscAddress
-    "Example Bank",   // bankName
-    "1234567890"     // bankAccountNumber
-);
-JSONObject whitelistResult = manager.whitelistAddress(whitelistParams);
-System.out.println(whitelistResult);
-```
 
 ### WalletManager Methods
 
