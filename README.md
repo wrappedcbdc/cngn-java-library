@@ -81,6 +81,7 @@ The library supports multiple blockchain networks, grouped by their underlying c
 - `Network.ATC` - Asset Chain
 - `Network.ETH` - Ethereum Mainnet
 - `Network.MATIC` - Polygon (Previously Matic)
+  - `Network.base` - Base
 
 ### Bantu (Stellar-based)
 - `Network.XBN` - XBN Chain
@@ -94,7 +95,7 @@ Usage example with different chain types:
 SwapParams evmSwapParams = new SwapParams(
     100,                // amount
     "0x1234...",       // EVM-compatible address
-    Network.BSC        // or Network.ATC, Network.ETH, Network.MATIC
+    Network.BSC        // Network.base, Network.ATC, Network.ETH, Network.MATIC
 );
 
 // For Bantu (XBN) operations
@@ -142,17 +143,6 @@ JSONObject swapResult = manager.swapBetweenChains(swapParams);
 System.out.println(swapResult);
 ```
 
-#### Deposit for Redemption
-
-```java
-DepositParams depositParams = new DepositParams(
-    1000,              // amount
-    "Example Bank",    // bank
-    "1234567890"      // accountNumber
-);
-JSONObject depositResult = manager.depositForRedemption(depositParams);
-System.out.println(depositResult);
-```
 
 #### Create Virtual Account
 
@@ -177,11 +167,11 @@ RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
 System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
 ```
 
-#### Update External Account
+#### Update Business
 
 ```java
 UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
-"0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b" //bscAddress or any other chain
+"" //bscAddress or any other chain
 );
         UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails(
 "Test Bank", //bankName
