@@ -30,6 +30,7 @@ Add the following dependency to your `pom.xml` if using Maven:
     <artifactId>cngn-java-library</artifactId>
     <version>1.0.0</version>
 </dependency>
+
 ```
 
 Or in your `build.gradle` if using Gradle:
@@ -42,12 +43,7 @@ implementation 'com.cngn:cngn-java-library:1.0.0'
 
 First, import the necessary classes:
 
-<<<<<<< HEAD
-`java
-import controller.ServiceController;
-import dao.Secrets;
-import util.Network;
-=======
+
 ```java
 import com.cngn.CNGNManager;
 import com.cngn.WalletManager;
@@ -58,7 +54,6 @@ import com.cngn.models.MintParams;
 import com.cngn.models.WhiteListAddressParams;
 import com.cngn.enums.Network;
 import org.json.JSONObject;
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
 import org.json.JSONArray;
 ```
 
@@ -87,6 +82,7 @@ The library supports multiple blockchain networks, grouped by their underlying c
 - `Network.ATC` - Asset Chain
 - `Network.ETH` - Ethereum Mainnet
 - `Network.MATIC` - Polygon (Previously Matic)
+  - `Network.base` - Base
 
 ### Bantu (Stellar-based)
 - `Network.XBN` - XBN Chain
@@ -100,7 +96,7 @@ Usage example with different chain types:
 SwapParams evmSwapParams = new SwapParams(
     100,                // amount
     "0x1234...",       // EVM-compatible address
-    Network.BSC        // or Network.ATC, Network.ETH, Network.MATIC
+    Network.BSC        // Network.base, Network.ATC, Network.ETH, Network.MATIC
 );
 
 // For Bantu (XBN) operations
@@ -148,37 +144,53 @@ JSONObject swapResult = manager.swapBetweenChains(swapParams);
 System.out.println(swapResult);
 ```
 
-#### Deposit for Redemption
-
-```java
-DepositParams depositParams = new DepositParams(
-    1000,              // amount
-    "Example Bank",    // bank
-    "1234567890"      // accountNumber
-);
-JSONObject depositResult = manager.depositForRedemption(depositParams);
-System.out.println(depositResult);
-```
 
 #### Create Virtual Account
 
 ```java
-MintParams mintParams = new MintParams("korapay");
+MintParams mintParams = new MintParams(
+"korapay", //provider
+"123"  //bankCode
+);
 JSONObject virtualAccount = manager.createVirtualAccount(mintParams);
 System.out.println(virtualAccount);
 ```
 
-#### Whitelist Address
+#### Redeem Asset
 
 ```java
-WhiteListAddressParams whitelistParams = new WhiteListAddressParams(
-    "0x1234...",      // bscAddress
-    "Example Bank",   // bankName
-    "1234567890"     // bankAccountNumber
-);
-JSONObject whitelistResult = manager.whitelistAddress(whitelistParams);
-System.out.println(whitelistResult);
+RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
+                1000,     //amount
+                "123",      //bankCode
+                "1234567890",   //accountNumber
+                true //saveDetails
+        );
+System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
 ```
+
+#### Update Business
+
+```java
+UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
+"" //bscAddress or any other chain
+);
+        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails(
+"Test Bank", //bankName
+ "Test Account", //bankAccountName
+ "1234567890" //bankAccountNumber
+
+);
+
+ UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
+System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+```
+
+#### Fetch Banks
+
+```java
+System.out.println("Get Banks : " + cngnManger.getBanks());
+```
+
 
 ### WalletManager Methods
 

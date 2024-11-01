@@ -12,6 +12,10 @@ import static util.Constants.*;
 
 public class CNGNManger {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> af8385275f915024d63c853e11642b89493335b2
 
     private Secrets secrets;
 
@@ -79,7 +83,11 @@ public class CNGNManger {
 
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
+<<<<<<< HEAD
         CNGNManger cngnManger = new CNGNManger("apiKey", "privateKey", "encryptionKey");
+=======
+        CNGNManger cngnManger = new CNGNManger("api-key","private-key", "encryption-key");
+>>>>>>> af8385275f915024d63c853e11642b89493335b2
 
         System.out.println("----------------------BALANCE-------------------------");
         System.out.println("Fetch Balance : " + cngnManger.getBalance());
