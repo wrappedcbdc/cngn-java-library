@@ -53,7 +53,6 @@ import com.cngn.models.MintParams;
 import com.cngn.models.WhiteListAddressParams;
 import com.cngn.enums.Network;
 import org.json.JSONObject;
->>>>>>> dee8eaf16a76caf962a30aecdf204390437f1f23
 import org.json.JSONArray;
 ```
 
