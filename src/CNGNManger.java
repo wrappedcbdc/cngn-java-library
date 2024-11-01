@@ -12,13 +12,6 @@ import static util.Constants.*;
 
 public class CNGNManger {
 
-    private static String ed25519PrivateKey = "-----BEGIN OPENSSH PRIVATE KEY-----\n" +
-            "b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW\n" +
-            "QyNTUxOQAAACB5B/qHuQCh8AseZlbgRmIfgPoy/6Wt/WSMGWVUORITQQAAAKDoHXUr6B11\n" +
-            "KwAAAAtzc2gtZWQyNTUxOQAAACB5B/qHuQCh8AseZlbgRmIfgPoy/6Wt/WSMGWVUORITQQ\n" +
-            "AAAEC2HqPVIi6SGnT0aFFfQV+cq34COXNaGPiHATR5uUuxZHkH+oe5AKHwCx5mVuBGYh+A\n" +
-            "+jL/pa39ZIwZZVQ5EhNBAAAAF29tb3RheW90ZW1pNDdAZ21haWwuY29tAQIDBAUG\n" +
-            "-----END OPENSSH PRIVATE KEY-----";
 
     private Secrets secrets;
 
@@ -47,13 +40,6 @@ public class CNGNManger {
         return ServiceController.makeCalls(SWAP, secrets, payload);
     }
 
-    public JSONObject deposit(DepositParams depositParams) {
-        JSONObject payload = new JSONObject();
-        payload.put("amount", depositParams.getAmount());
-        payload.put("bank", depositParams.getBank());
-        payload.put("accountNumber", depositParams.getAccountNumber());
-        return ServiceController.makeCalls(DEPOSIT, secrets, payload);
-    }
 
     public JSONObject createVirtualAccount(MintParams mintParams) {
         JSONObject payload = new JSONObject();
@@ -62,13 +48,6 @@ public class CNGNManger {
         return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, secrets, payload);
     }
 
-    public JSONObject whiteList(WhiteListAddressParams whiteListAddressParams) {
-        JSONObject payload = new JSONObject();
-        payload.put("bscAddress", whiteListAddressParams.getBscAddress());
-        payload.put("bankName", whiteListAddressParams.getBankName());
-        payload.put("bankAccountNumber", whiteListAddressParams.getBankAccountNumber());
-        return ServiceController.makeCalls(WHITELIST_ADDRESS, secrets, payload);
-    }
 
     public JSONObject redeemAssets(RedeemAssetParams redeemAssetParams) {
         JSONObject payload = new JSONObject();
@@ -100,7 +79,7 @@ public class CNGNManger {
 
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
-        CNGNManger cngnManger = new CNGNManger("cngn_live_6VCaEbFUaJU4eKZlMMy740VFWDEA995kbAI53AtDiarqUoAWotv", ed25519PrivateKey, "kDf2DPsaU/k+Xf7gg3ZTPvkn6FlFAtyzNu4DBP2ssL7stvKPVUYF2TFyvva9m+M=");
+        CNGNManger cngnManger = new CNGNManger("apiKey", "privateKey", "encryptionKey");
 
         System.out.println("----------------------BALANCE-------------------------");
         System.out.println("Fetch Balance : " + cngnManger.getBalance());
@@ -108,12 +87,6 @@ public class CNGNManger {
         System.out.println("----------------------TRANSACTION-------------------------");
         System.out.println("Fetch Transaction History : " + cngnManger.getTransactionHistory());
 
-        System.out.println("----------------------WHITELIST------------------------");
-        WhiteListAddressParams whiteListAddressParams = new WhiteListAddressParams(
-                "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
-                "Example Bank",
-                "1234567890");
-        System.out.println("WhiteList Address : " + cngnManger.whiteList(whiteListAddressParams));
 
         System.out.println("----------------------SWAP-------------------------");
         SwapParams swapParams = new SwapParams(
@@ -121,13 +94,6 @@ public class CNGNManger {
                 "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
                 Network.ETH);
         System.out.println("Swap : " + cngnManger.swap(swapParams));
-
-        System.out.println("----------------------DEPOSIT-------------------------");
-        DepositParams depositParams = new DepositParams(
-                1000,
-                "Example Bank",
-                "1234567890");
-        System.out.println("Deposit : " + cngnManger.deposit(depositParams));
 
 
         System.out.println("----------------------CREATE VIRTUAL ACCOUNT-------------------------");
@@ -148,15 +114,18 @@ public class CNGNManger {
         System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
 
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
-        UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress("0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b");
+        UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
+                "bscAddress"
+        );
         UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails("Test Bank", "Test Account", "1234567890");
 
         UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
         System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
 
-
         System.out.println("----------------------GET BANKS-------------------------");
         System.out.println("Get Banks : " + cngnManger.getBanks());
     }
 }
+
+
 
