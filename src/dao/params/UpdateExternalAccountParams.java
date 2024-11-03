@@ -1,87 +1,54 @@
 package dao.params;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class UpdateExternalAccountParams {
 
-    private WalletAddress walletAddress;
-    private BankDetails bankDetails;
+    private List<Map<String, String>> walletAddresses;
+    private String bankName;
+    private String bankAccountName;
+    private String bankAccountNumber;
 
-    public UpdateExternalAccountParams(WalletAddress walletAddress, BankDetails bankDetails) {
-        this.walletAddress = walletAddress;
-        this.bankDetails = bankDetails;
+    // Constructor
+    public UpdateExternalAccountParams(String bankName, String bankAccountName, String bankAccountNumber) {
+        this.walletAddresses = new ArrayList<>();
+        this.bankName = bankName;
+        this.bankAccountName = bankAccountName;
+        this.bankAccountNumber = bankAccountNumber;
     }
 
-    public UpdateExternalAccountParams() {
-
+    // Method to add a wallet address
+    public void addWalletAddress(String type, String address) {
+        this.walletAddresses.add(Map.of(type, address));
     }
 
-    public WalletAddress getWalletAddress() {
-        return walletAddress;
-    }
+    // Method to create JSON object
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
 
-    public void setWalletAddress(WalletAddress walletAddress) {
-        this.walletAddress = walletAddress;
-    }
-
-    public BankDetails getBankDetails() {
-        return bankDetails;
-    }
-
-    public void setBankDetails(BankDetails bankDetails) {
-        this.bankDetails = bankDetails;
-    }
-
-    public static class WalletAddress {
-        private String address;
-
-        public WalletAddress(String address) {
-            this.address = address;
+        // Creating the walletAddress array dynamically
+        JSONArray walletAddressArray = new JSONArray();
+        for (Map<String, String> address : walletAddresses) {
+            JSONObject addressObj = new JSONObject(address);
+            walletAddressArray.put(addressObj);
         }
 
-        public String getAddress() {
-            return address;
-        }
+        jsonObject.put("walletAddress", walletAddressArray);
 
-        public void setAddress(String address) {
-            this.address = address;
-        }
-    }
+        // Creating the bankDetails object
+        JSONObject bankDetails = new JSONObject();
+        bankDetails.put("bankName", bankName);
+        bankDetails.put("bankAccountName", bankAccountName);
+        bankDetails.put("bankAccountNumber", bankAccountNumber);
 
-    public static class BankDetails {
-        private String bankName;
-        private String bankAccountName;
-        private String bankAccountNumber;
+        jsonObject.put("bankDetails", bankDetails);
 
-        public BankDetails(String bankName, String bankAccountName, String bankAccountNumber) {
-            this.bankName = bankName;
-            this.bankAccountName = bankAccountName;
-            this.bankAccountNumber = bankAccountNumber;
-        }
-
-        // Getters and setters
-        public String getBankName() {
-            return bankName;
-        }
-
-        public void setBankName(String bankName) {
-            this.bankName = bankName;
-        }
-
-        public String getBankAccountName() {
-            return bankAccountName;
-        }
-
-        public void setBankAccountName(String bankAccountName) {
-            this.bankAccountName = bankAccountName;
-        }
-
-        public String getBankAccountNumber() {
-            return bankAccountNumber;
-        }
-
-        public void setBankAccountNumber(String bankAccountNumber) {
-            this.bankAccountNumber = bankAccountNumber;
-        }
+        return jsonObject;
     }
 }
+
