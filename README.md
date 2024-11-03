@@ -171,13 +171,17 @@ System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParam
 #### Update Business
 
 ```java
-UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
-"" //bscAddress or any other chain
-);
-        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails(
-"Test Bank", //bankName
- "Test Account", //bankAccountName
- "1234567890" //bankAccountNumber
+UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
+                "Test Bank", //Bank Name
+                "Example account", //Bank Account 
+                "1234567890" //Account Number
+        );
+        updateExternalAccountParams.addWalletAddress("bscAddress","0x3d8e....");
+        updateExternalAccountParams.addWalletAddress("xbnAddress","0x3d8e2.....");
+        //add other address
+
+        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(updateExternalAccountParams));
+
 
 );
 
