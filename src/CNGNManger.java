@@ -11,7 +11,8 @@ import java.util.Map;
 import static util.Constants.*;
 
 public class CNGNManger {
-    
+
+
 
     private Secrets secrets;
 
@@ -59,20 +60,7 @@ public class CNGNManger {
     }
 
     public JSONObject updateExternalAccounts(UpdateExternalAccountParams updateExternalAccountParams) {
-        Map<String, Object> payload = new HashMap<>();
-
-        Map<String, String> walletAddressMap = new HashMap<>();
-        walletAddressMap.put("bscAddress", updateExternalAccountParams.getWalletAddress().getAddress());
-        // Add other chain addresses if needed
-
-        Map<String, String> bankDetailsMap = new HashMap<>();
-        bankDetailsMap.put("bankName", updateExternalAccountParams.getBankDetails().getBankName());
-        bankDetailsMap.put("bankAccountName", updateExternalAccountParams.getBankDetails().getBankAccountName());
-        bankDetailsMap.put("bankAccountNumber", updateExternalAccountParams.getBankDetails().getBankAccountNumber());
-
-        payload.put("walletAddress", walletAddressMap);
-        payload.put("bankDetails", bankDetailsMap);
-        return ServiceController.makeCalls(UPDATE_EXTERNAL_ACCOUNTS, secrets, payload);
+        return ServiceController.makeCalls(UPDATE_EXTERNAL_ACCOUNTS, secrets, updateExternalAccountParams.toJson());
     }
 
 
@@ -113,13 +101,16 @@ public class CNGNManger {
         System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
 
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
-        UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
-                "bscAddress"
+        UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
+                "Test Bank",
+                "Example account",
+                "1234567890"
         );
-        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails("Test Bank", "Test Account", "1234567890");
+        updateExternalAccountParams.addWalletAddress("bscAddress","0x3d8e....");
+        updateExternalAccountParams.addWalletAddress("xbnAddress","0x3d8e2.....");
+        //add other address
 
-        UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
-        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(updateExternalAccountParams));
 
         System.out.println("----------------------GET BANKS-------------------------");
         System.out.println("Get Banks : " + cngnManger.getBanks());
