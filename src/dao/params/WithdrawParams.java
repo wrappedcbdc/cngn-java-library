@@ -2,12 +2,13 @@ package dao.params;
 
 import util.Network;
 
-public class SwapParams {
+public class WithdrawParams {
+
     private int amount;
     private String address;
     private Network network;
 
-    public SwapParams(int amount, String address, Network network) {
+    public WithdrawParams(int amount, String address, Network network) {
         this.amount = amount;
         this.address = address;
         this.network = network;

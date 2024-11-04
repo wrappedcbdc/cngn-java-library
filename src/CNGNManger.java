@@ -5,20 +5,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import util.Network;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static util.Constants.*;
 
 public class CNGNManger {
 
-
-
-    private Secrets secrets;
+    private final Secrets secrets;
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
         secrets = new Secrets(apiKey, privateKey, encryptionKey);
-        return;
     }
 
     public JSONArray getBalance() {
@@ -33,22 +27,20 @@ public class CNGNManger {
         return ServiceController.makeCalls(GET_BANKS, secrets);
     }
 
-    public JSONObject swap(SwapParams swapParams) {
+    public JSONObject withdraw(WithdrawParams withdrawParams) {
         JSONObject payload = new JSONObject();
-        payload.put("amount", swapParams.getAmount());
-        payload.put("address", swapParams.getAddress());
-        payload.put("network", swapParams.getNetwork().toString().toLowerCase());
-        return ServiceController.makeCalls(SWAP, secrets, payload);
+        payload.put("amount", withdrawParams.getAmount());
+        payload.put("address", withdrawParams.getAddress());
+        payload.put("network", withdrawParams.getNetwork().toString().toLowerCase());
+        return ServiceController.makeCalls(WITHDRAW, secrets, payload);
     }
 
-
-    public JSONObject createVirtualAccount(MintParams mintParams) {
+    public JSONObject createVirtualAccount(CreateVirtualAccount createVirtualAccount) {
         JSONObject payload = new JSONObject();
-        payload.put("provider", mintParams.getProvider());
-        payload.put("bank_code", mintParams.getBankCode());
+        payload.put("provider", createVirtualAccount.getProvider());
+        payload.put("bank_code", createVirtualAccount.getBankCode());
         return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, secrets, payload);
     }
-
 
     public JSONObject redeemAssets(RedeemAssetParams redeemAssetParams) {
         JSONObject payload = new JSONObject();
@@ -63,11 +55,13 @@ public class CNGNManger {
         return ServiceController.makeCalls(UPDATE_EXTERNAL_ACCOUNTS, secrets, updateExternalAccountParams.toJson());
     }
 
-
-
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
-        CNGNManger cngnManger = new CNGNManger("apiKey", "privateKey", "encryptionKey");
+        CNGNManger cngnManger = new CNGNManger(
+                "api-key",
+                "ssh secret key",
+                "encryption key"
+        );
         System.out.println("----------------------BALANCE-------------------------");
         System.out.println("Fetch Balance : " + cngnManger.getBalance());
 
@@ -75,20 +69,20 @@ public class CNGNManger {
         System.out.println("Fetch Transaction History : " + cngnManger.getTransactionHistory());
 
 
-        System.out.println("----------------------SWAP-------------------------");
-        SwapParams swapParams = new SwapParams(
+        System.out.println("----------------------WITHDRAW-------------------------");
+        WithdrawParams withdrawParams = new WithdrawParams(
                 1000,
                 "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
                 Network.ETH);
-        System.out.println("Swap : " + cngnManger.swap(swapParams));
+        System.out.println("Withdraw : " + cngnManger.withdraw(withdrawParams));
 
 
         System.out.println("----------------------CREATE VIRTUAL ACCOUNT-------------------------");
-        MintParams mintParams = new MintParams(
+        CreateVirtualAccount createVirtualAccount = new CreateVirtualAccount(
                 "korapay",
                 "123"
         );
-        System.out.println("Create Virtual Account : " + cngnManger.createVirtualAccount(mintParams));
+        System.out.println("Create Virtual Account : " + cngnManger.createVirtualAccount(createVirtualAccount));
 
 
         System.out.println("----------------------REDEEM ASSETS-------------------------");
@@ -106,8 +100,8 @@ public class CNGNManger {
                 "Example account",
                 "1234567890"
         );
-        updateExternalAccountParams.addWalletAddress("bscAddress","0x3d8e....");
-        updateExternalAccountParams.addWalletAddress("xbnAddress","0x3d8e2.....");
+        updateExternalAccountParams.addWalletAddress("bscAddress","0x36febeeb4f12a011865d06837d1ddc18090f59b2");
+        updateExternalAccountParams.addWalletAddress("xbnAddress","GASIKMSCK7IWMKHGD4QPP66ZADR5IX3YVAWXSXADJDVNULMC3LT3HZA6");
         //add other address
 
         System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(updateExternalAccountParams));

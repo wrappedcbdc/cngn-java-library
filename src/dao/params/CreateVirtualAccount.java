@@ -1,11 +1,11 @@
 package dao.params;
 
-public class MintParams {
+public class CreateVirtualAccount {
 
     String provider;
     String bankCode;
 
-    public MintParams(String provider, String bankCode) {
+    public CreateVirtualAccount(String provider, String bankCode) {
         this.provider = provider;
         this.bankCode = bankCode;
     }

@@ -1,304 +1,183 @@
-# cngn-java-library
+# CNGN Java Library
 
-cngn-java-library is a Java library for interacting with the cNGN API. It provides a simple interface for various operations such as checking balance, swapping between chains, depositing for redemption, creating virtual accounts, generating wallet addresses, and more.
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Networks](#networks)
-- [Available Methods](#available-methods)
-  - [CNGNManager Methods](#cngnmanager-methods)
-  - [WalletManager Methods](#walletmanager-methods)
-- [Testing](#testing)
-- [Error Handling](#error-handling)
-- [Types](#types)
-- [Security](#security)
-- [Contributing](#contributing)
-- [Support](#support)
-- [License](#license)
+A Java SDK for seamless integration with the cNGN API, enabling digital asset operations including balance checks, withdraw, virtual account management, and wallet operations.
 
 ## Installation
 
-To install cngn-java-library and its dependencies:
-
-Add the following dependency to your `pom.xml` if using Maven:
-
+### Maven
 ```xml
 <dependency>
     <groupId>com.cngn</groupId>
     <artifactId>cngn-java-library</artifactId>
     <version>1.0.0</version>
 </dependency>
-
 ```
 
-Or in your `build.gradle` if using Gradle:
-
+### Gradle
 ```groovy
 implementation 'com.cngn:cngn-java-library:1.0.0'
 ```
 
-## Usage
-
-First, import the necessary classes:
-
+## Quick Start
 
 ```java
 import com.cngn.CNGNManager;
-import com.cngn.WalletManager;
 import com.cngn.models.Secrets;
-import com.cngn.models.SwapParams;
-import com.cngn.models.DepositParams;
-import com.cngn.models.MintParams;
-import com.cngn.models.WhiteListAddressParams;
-import com.cngn.enums.Network;
-import org.json.JSONObject;
-import org.json.JSONArray;
-```
 
-Then, create an instance of `CNGNManager` with your secrets:
-
-```java
+// Initialize the SDK
 Secrets secrets = new Secrets(
     "your-api-key",
     "your-private-key",
     "your-encryption-key"
 );
-
 CNGNManager manager = new CNGNManager(secrets);
 
-// Example: Get balance
+// Make your first API call
 JSONArray balance = manager.getBalance();
-System.out.println(balance);
 ```
 
-## Networks
+## Features
 
-The library supports multiple blockchain networks, grouped by their underlying chain technology:
+### Asset Management
+- Balance inquiries
+- Transaction history
+- Withdraw
+- Asset redemption
+- Virtual account creation
+- Update external account details
 
-### EVM (Ethereum Virtual Machine) Chains
-- `Network.BSC` - Binance Smart Chain Mainnet
-- `Network.ATC` - Asset Chain
-- `Network.ETH` - Ethereum Mainnet
-- `Network.MATIC` - Polygon (Previously Matic)
-  - `Network.base` - Base
+### Wallet Operations
+- Multi-chain wallet generation
 
-### Bantu (Stellar-based)
-- `Network.XBN` - XBN Chain
+## Supported Networks
 
-### Tron
-- `Network.TRX` - Tron Mainnet
+### EVM Compatible
+- Binance Smart Chain (BSC)
+- Ethereum (ETH)
+- Polygon (MATIC)
+- Base
+- Asset Chain (ATC)
 
-Usage example with different chain types:
+### Other Chains
+- XBN (Bantu)
+- Tron (TRX)
+
+## API Reference
+
+### CNGNManager
+
+#### Balance Operations
 ```java
-// For EVM chain operations (BSC, ATC, ETH, MATIC)
-SwapParams evmSwapParams = new SwapParams(
-    100,                // amount
-    "0x1234...",       // EVM-compatible address
-    Network.BSC        // Network.base, Network.ATC, Network.ETH, Network.MATIC
-);
-
-// For Bantu (XBN) operations
-SwapParams xbnSwapParams = new SwapParams(
-    100,               // amount
-    "G....",           // Stellar-compatible address
-    Network.XBN
-);
-
-// For Tron operations
-SwapParams tronSwapParams = new SwapParams(
-    100,               // amount
-    "T....",           // Tron address format
-    Network.TRX
-);
-```
-
-## Available Methods
-
-### CNGNManager Methods
-
-#### Get Balance
-
-```java
+// Get balance across all chains
 JSONArray balance = manager.getBalance();
-System.out.println(balance);
-```
 
-#### Get Transaction History
-
-```java
+// View transaction history
 JSONArray transactions = manager.getTransactionHistory();
-System.out.println(transactions);
 ```
 
-#### Swap Between Chains
-
+#### Asset Operations
 ```java
-SwapParams swapParams = new SwapParams(
-    100,                // amount
-    "0x1234...",       // address
-    Network.BSC        // network
+// Withdrawal
+WithdrawParams params = new WithdrawParams(
+    100.0,              // amount
+    "0x123...def",     // destination address
+    Network.BSC        // destination network
 );
-JSONObject swapResult = manager.swapBetweenChains(swapParams);
-System.out.println(swapResult);
-```
+JSONObject result = manager.withdraw(params);
 
-
-#### Create Virtual Account
-
-```java
-MintParams mintParams = new MintParams(
-"korapay", //provider
-"123"  //bankCode
+// Create virtual account
+CreateVirtualAccount accountParams = new CreateVirtualAccount(
+    "korapay",    // provider
+    "123"         // bank code
 );
-JSONObject virtualAccount = manager.createVirtualAccount(mintParams);
-System.out.println(virtualAccount);
-```
+JSONObject account = manager.createVirtualAccount(accountParams);
 
-#### Redeem Asset
+// Redeem assets
+RedeemAssetParams redeemParams = new RedeemAssetParams(
+    1000.0,          // amount
+    "123",           // bank code
+    "1234567890",    // account number
+    true             // save details flag
+);
+JSONObject redemption = manager.redeemAssets(redeemParams);
 
-```java
-RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
-                1000,     //amount
-                "123",      //bankCode
-                "1234567890",   //accountNumber
-                true //saveDetails
-        );
-System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
-```
-
-#### Update Business
-
-```java
-UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
-                "Test Bank", //Bank Name
-                "Example account", //Bank Account 
-                "1234567890" //Account Number
-        );
-        updateExternalAccountParams.addWalletAddress("bscAddress","0x3d8e....");
-        updateExternalAccountParams.addWalletAddress("xbnAddress","0x3d8e2.....");
-        //add other address
-
-        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(updateExternalAccountParams));
-
-
+// Update business details
+UpdateExternalAccountParams updateParams = new UpdateExternalAccountParams(
+        "Bank Name",
+        "Account Name",
+        "1234567890"    // account number
 );
 
- UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
-System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+// Add wallet addresses
+updateParams.addWalletAddress("bsc", "0x123...def");
+updateParams.addWalletAddress("xbn", "G123...XYZ");
+
+JSONObject result = manager.updateExternalAccounts(updateParams);
+
+
+// Get supported banks
+JSONArray banks = manager.getBanks();
 ```
 
-#### Fetch Banks
+### WalletManager
 
 ```java
-System.out.println("Get Banks : " + cngnManger.getBanks());
-```
+// Generate wallet for any supported network
+JSONObject wallet = WalletManager.generateWalletAddress(Network.BSC);
 
-
-### WalletManager Methods
-
-#### Generate Wallet Address
-
-The `generateWalletAddress` method creates a new wallet address for any supported network. Each network type returns addresses in its native format.
-
-```java
-// EVM Chains (returns 0x-prefixed addresses)
-JSONObject bscWallet = WalletManager.generateWalletAddress(Network.BSC);    // BSC address
-JSONObject ethWallet = WalletManager.generateWalletAddress(Network.ETH);    // Ethereum address
-JSONObject maticWallet = WalletManager.generateWalletAddress(Network.MATIC); // Polygon address
-JSONObject atcWallet = WalletManager.generateWalletAddress(Network.ATC);    // Asset Chain address
-
-// Bantu/Stellar-based Chain (returns G-prefixed addresses)
-JSONObject xbnWallet = WalletManager.generateWalletAddress(Network.XBN);    // XBN address
-
-// Tron Chain (returns T-prefixed addresses)
-JSONObject tronWallet = WalletManager.generateWalletAddress(Network.TRX);   // Tron address
-```
-
-The response format for each generated wallet:
-```java
-public class WalletResponse {
-    private String address;     // The public address for the wallet
-    private Network network;    // The network this wallet is for
-    private String mnemonic;    // 12-word recovery phrase
-    private String privateKey;  // Private key for the wallet
-}
-```
-
-Example response:
-```java
-// EVM wallet response
+// Wallet response structure
 {
-    "address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-    "network": "ETH",
-    "mnemonic": "width craft decide...",
-    "privateKey": "0x..."
-}
-
-// XBN wallet response
-{
-    "address": "GBXYZABC...",
-    "network": "XBN",
-    "mnemonic": "width craft decide...",
-    "privateKey": "S..."
-}
-
-// Tron wallet response
-{
-    "address": "TRxYZABC...",
-    "network": "TRX",
-    "mnemonic": "width craft decide...",
-    "privateKey": "..."
+    "address": "0x71C7...",    // Public address
+    "network": "BSC",          // Network identifier
+    "mnemonic": "word1 word2...",  // Recovery phrase
+    "privateKey": "0x..."      // Private key
 }
 ```
 
-**Note:** Each network type has its own address format:
-- EVM chains (BSC, ETH, MATIC, ATC): `0x`-prefixed addresses
-- Bantu/XBN: `G`-prefixed addresses (Stellar format)
-- Tron: `T`-prefixed addresses
-
-## Testing
-
-This project uses JUnit for testing. To run the tests, follow these steps:
-
-1. Run the test command:
-
-   ```bash
-   mvn test
-   ```
-
-   This will run all tests in the `src/test/java` directory.
-
-### Test Structure
-
-The tests are located in the `src/test/java` directory. They cover various aspects of the CNGNManager and WalletManager classes, including:
-
-- API calls for different endpoints (GET and POST requests)
-- Encryption and decryption of data
-- Error handling for various scenarios
-- Wallet address generation for different networks
+## Address Formats
+- EVM chains (BSC, ETH, MATIC, Base, ATC): `0x` prefix
+- Bantu/XBN: `G` prefix (Stellar format)
+- Tron: `T` prefix
 
 ## Error Handling
 
-The library uses a custom error handling mechanism. All API errors are caught and thrown as `CNGNException` objects with descriptive messages.
+The library uses `CNGNException` for error management:
 
-## Types
-
-The library includes Java classes and interfaces for all parameters and return types. All models are defined in the `com.cngn.models` package for easy reference and maintenance.
+```java
+try {
+    JSONArray balance = manager.getBalance();
+} catch (CNGNException e) {
+    System.err.println("Error code: " + e.getCode());
+    System.err.println("Message: " + e.getMessage());
+}
+```
 
 ## Security
 
-This library uses AES encryption for request payloads and Ed25519 decryption for response data. Ensure that your `encryptionKey` and `privateKey` are kept secure.
+- Uses AES encryption for request payloads
+- Implements Ed25519 decryption for responses
+- Requires secure management of API credentials
 
-## Contributing
+## Testing
 
-Contributions, issues, and feature requests are welcome. Feel free to check [issues page](https://github.com/wrappedcbdc/cngn-java-library/issues) if you want to contribute.
+Run the test suite:
+
+```bash
+mvn test
+```
+
+Test coverage includes:
+- API endpoint integration
+- Encryption/decryption
+- Error scenarios
+- Wallet generation
+- Input validation
 
 ## Support
 
-If you have any questions or need help using the library, please open an issue in the GitHub repository.
+- Issues: [GitHub Issues](https://github.com/wrappedcbdc/cngn-java-library/issues)
+- Documentation: [Wiki](https://github.com/wrappedcbdc/cngn-java-library/wiki)
 
 ## License
 
-[ISC](https://choosealicense.com/licenses/isc/)
+Released under [ISC License](LICENSE)
