@@ -3,37 +3,47 @@ package dao.params;
 import util.Network;
 
 public class SwapParams {
-    private int amount;
-    private String address;
-    private Network network;
+    private Network originatorNetwork;
+    private String destinationAddress;
+    private Network destinantionNetwork;
+    private String callBackUrl;
 
-    public SwapParams(int amount, String address, Network network) {
-        this.amount = amount;
-        this.address = address;
-        this.network = network;
+    public SwapParams(Network originatorNetwork, String destinationAddress, Network destinantionNetwork, String callBackUrl) {
+        this.originatorNetwork = originatorNetwork;
+        this.destinationAddress = destinationAddress;
+        this.destinantionNetwork = destinantionNetwork;
+        this.callBackUrl = callBackUrl;
     }
 
-    public int getAmount() {
-        return amount;
+    public Network getOriginatorNetwork() {
+        return originatorNetwork;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setOriginatorNetwork(Network originatorNetwork) {
+        this.originatorNetwork = originatorNetwork;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDestinationAddress() {
+        return destinationAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 
-    public Network getNetwork() {
-        return network;
+    public Network getDestinantionNetwork() {
+        return destinantionNetwork;
     }
 
-    public void setNetwork(Network network) {
-        this.network = network;
+    public void setDestinantionNetwork(Network destinantionNetwork) {
+        this.destinantionNetwork = destinantionNetwork;
+    }
+
+    public String getCallBackUrl() {
+        return callBackUrl;
+    }
+
+    public void setCallBackUrl(String callBackUrl) {
+        this.callBackUrl = callBackUrl;
     }
 }

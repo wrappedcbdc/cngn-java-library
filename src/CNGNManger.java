@@ -14,7 +14,7 @@ public class CNGNManger {
 
 
 
-    private Secrets secrets;
+
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
         secrets = new Secrets(apiKey, privateKey, encryptionKey);
@@ -25,8 +25,9 @@ public class CNGNManger {
         return ServiceController.makeCalls(GET_BALANCE, secrets);
     }
 
-    public JSONArray getTransactionHistory() {
-        return ServiceController.makeCalls(TRANSACTIONS, secrets);
+    public JSONArray getTransactionHistory(TransactionParams transactionParams) {
+        return ServiceController.makeCalls(TRANSACTIONS+"?page="+transactionParams.getPage()
+                +"&limit="+transactionParams.getLimit(), secrets);
     }
 
     public JSONArray getBanks() {
@@ -35,9 +36,10 @@ public class CNGNManger {
 
     public JSONObject swap(SwapParams swapParams) {
         JSONObject payload = new JSONObject();
-        payload.put("amount", swapParams.getAmount());
-        payload.put("address", swapParams.getAddress());
-        payload.put("network", swapParams.getNetwork().toString().toLowerCase());
+        payload.put("originNetwork", swapParams.getOriginatorNetwork().toString().toLowerCase());
+        payload.put("destinationAddress", swapParams.getDestinationAddress());
+        payload.put("destinationNetwork", swapParams.getDestinantionNetwork().toString().toLowerCase());
+        payload.put("callbackUrl",swapParams.getCallBackUrl());
         return ServiceController.makeCalls(SWAP, secrets, payload);
     }
 
@@ -72,14 +74,18 @@ public class CNGNManger {
         System.out.println("Fetch Balance : " + cngnManger.getBalance());
 
         System.out.println("----------------------TRANSACTION-------------------------");
-        System.out.println("Fetch Transaction History : " + cngnManger.getTransactionHistory());
+        TransactionParams transactionParams = new TransactionParams(
+          1,1
+        );
+        System.out.println("Fetch Transaction History : " + cngnManger.getTransactionHistory(transactionParams));
 
 
         System.out.println("----------------------SWAP-------------------------");
         SwapParams swapParams = new SwapParams(
-                1000,
+                Network.BSC,
                 "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
-                Network.ETH);
+                Network.ETH,
+                "https://your-callback-url.com");
         System.out.println("Swap : " + cngnManger.swap(swapParams));
 
 
