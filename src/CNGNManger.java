@@ -14,7 +14,7 @@ public class CNGNManger {
 
 
 
-
+    private Secrets secrets;
 
     public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
         secrets = new Secrets(apiKey, privateKey, encryptionKey);

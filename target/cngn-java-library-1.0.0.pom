@@ -1,0 +1,100 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Basic Project Details -->
+    <groupId>io.github.dtuzzy</groupId> <!-- Replace with your GitHub username -->
+    <artifactId>cngn-java-library</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>CNGN Java Library</name>
+    <description>A Java library for CNGN functionalities</description>
+    <url>https://github.com/Dtuzzy/cngn_java_sdk</url> <!-- Update to your repository URL -->
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/Dtuzzy/cngn_java_sdk</url> <!-- Update to your GitHub repository -->
+        <connection>scm:git:git://github.com/Dtuzzy/cngn_java_sdk.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Dtuzzy/cngn_java_sdk.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>your_github_username</id>
+            <name>Your Name</name>
+            <url>https://github.com/Dtuzzy</url>
+        </developer>
+    </developers>
+
+    <!-- Dependencies Section -->
+    <dependencies>
+        <!-- Add your dependencies here -->
+    </dependencies>
+
+    <!-- Build Section -->
+    <build>
+        <plugins>
+            <!-- GPG Plugin for signing -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Maven Deploy Plugin for OSSRH deployment -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <altDeploymentRepository>ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/</altDeploymentRepository>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- Distribution Management for OSSRH -->
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>OSSRH Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>OSSRH Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- Profile for OSSRH deployment -->
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.passphrase>bernini47</gpg.passphrase> <!-- Replace with passphrase or set env var -->
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
