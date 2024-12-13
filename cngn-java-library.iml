@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
-    <content url="file://$MODULE_DIR$">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
-    <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="muquit.libsodiumjna.libsodium.jna" level="project" />
-    <orderEntry type="library" name="net.java.dev.jna" level="project" />
-    <orderEntry type="library" name="okio-3.9.1" level="project" />
-    <orderEntry type="library" name="web3j.core" level="project" />
-    <orderEntry type="library" name="json" level="project" />
-    <orderEntry type="library" name="bouncycastle.bcpkix.jdk15on" level="project" />
-    <orderEntry type="library" name="google.crypto.tink" level="project" />
-    <orderEntry type="library" name="bitcoinj.core" level="project" />
-    <orderEntry type="library" name="ch.qos.logback.classic" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/lombok-1.18.28.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="eddsa-0.3.0" level="project" />
-    <orderEntry type="library" name="stellar-sdk-1.0.0-alpha0" level="project" />
-    <orderEntry type="library" name="io.nem.sdk.core" level="project" />
   </component>
 </module>

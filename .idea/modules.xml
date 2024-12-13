@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cngn-java-library.iml" filepath="$PROJECT_DIR$/cngn-java-library.iml" />
-      <module fileurl="file://$USER_HOME$/Downloads/wallet-cli/src/main/main.iml" filepath="$USER_HOME$/Downloads/wallet-cli/src/main/main.iml" />
-      <module fileurl="file://$USER_HOME$/Downloads/wallet-cli/src/test/test.iml" filepath="$USER_HOME$/Downloads/wallet-cli/src/test/test.iml" />
     </modules>
   </component>
 </project>
