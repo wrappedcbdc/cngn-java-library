@@ -128,8 +128,11 @@ System.out.println(balance);
 #### Get Transaction History
 
 ```java
-JSONArray transactions = manager.getTransactionHistory();
-System.out.println(transactions);
+ TransactionParams transactionParams = new TransactionParams(
+                1, //page
+                2  //limit
+        );
+System.out.println("Fetch Transaction History : " + cngnManager.getTransactionHistory(transactionParams));
 ```
 
 #### Swap Between Chains
@@ -184,6 +187,20 @@ UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAcco
  UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
 System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
 ```
+
+
+#### IWithdrawal
+```java
+IWithdrawParams withdrawParams = new IWithdrawParams(
+                "1000", //amount
+                "0x789...", //address
+                Network.BSC, //network
+                true //shouldSaveAddress
+        );
+System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
+
+```
+
 
 #### Fetch Banks
 
