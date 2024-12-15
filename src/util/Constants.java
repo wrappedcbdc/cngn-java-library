@@ -1,7 +1,7 @@
 package util;
 
 public class Constants {
-    public static String BASE_URL = " https://api.cngn.co/v1/api/";
+    public static String BASE_URL = "https://api.cngn.co/v1/api";
     public static String GET_BALANCE = BASE_URL+"/balance";
     public static String TRANSACTIONS = BASE_URL+"/transactions";
     public static String DEPOSIT = BASE_URL+"/deposit";

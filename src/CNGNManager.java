@@ -5,29 +5,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import util.Network;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static util.Constants.*;
 
-public class CNGNManger {
+public class CNGNManager {
+
+    private final Secrets secrets;
 
 
-
-    private Secrets secrets;
-
-    public CNGNManger(String apiKey, String privateKey, String encryptionKey) {
-        secrets = new Secrets(apiKey, privateKey, encryptionKey);
-        return;
+    public CNGNManager(Secrets secrets) {
+        this.secrets = secrets;
     }
 
     public JSONArray getBalance() {
         return ServiceController.makeCalls(GET_BALANCE, secrets);
     }
 
-    public JSONArray getTransactionHistory(TransactionParams transactionParams) {
-        return ServiceController.makeCalls(TRANSACTIONS+"?page="+transactionParams.getPage()
-                +"&limit="+transactionParams.getLimit(), secrets);
+    public JSONObject getTransactionHistory(TransactionParams transactionParams) {
+        return ServiceController.makeCallObject(TRANSACTIONS + "?page=" + transactionParams.getPage()
+                + "&limit=" + transactionParams.getLimit(), secrets);
     }
 
     public JSONArray getBanks() {
@@ -39,7 +34,7 @@ public class CNGNManger {
         payload.put("originNetwork", swapParams.getOriginatorNetwork().toString().toLowerCase());
         payload.put("destinationAddress", swapParams.getDestinationAddress());
         payload.put("destinationNetwork", swapParams.getDestinantionNetwork().toString().toLowerCase());
-        payload.put("callbackUrl",swapParams.getCallBackUrl());
+        payload.put("callbackUrl", swapParams.getCallBackUrl());
         return ServiceController.makeCalls(SWAP, secrets, payload);
     }
 
@@ -76,18 +71,22 @@ public class CNGNManger {
     }
 
 
-
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
-        CNGNManger cngnManger = new CNGNManger("apiKey", "privateKey", "encryptionKey");
+        Secrets secrets = new Secrets("your-api-key",
+                "your-private-key",
+                "your-encryption-key");
+
+        CNGNManager cngnManager = new CNGNManager(secrets);
         System.out.println("----------------------BALANCE-------------------------");
-        System.out.println("Fetch Balance : " + cngnManger.getBalance());
+        System.out.println("Fetch Balance : " + cngnManager.getBalance());
 
         System.out.println("----------------------TRANSACTION-------------------------");
+
         TransactionParams transactionParams = new TransactionParams(
-          1,1
+                1, 1
         );
-        System.out.println("Fetch Transaction History : " + cngnManger.getTransactionHistory(transactionParams));
+        System.out.println("Fetch Transaction History : " + cngnManager.getTransactionHistory(transactionParams));
 
 
         System.out.println("----------------------SWAP-------------------------");
@@ -96,7 +95,7 @@ public class CNGNManger {
                 "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
                 Network.ETH,
                 "https://your-callback-url.com");
-        System.out.println("Swap : " + cngnManger.swap(swapParams));
+        System.out.println("Swap : " + cngnManager.swap(swapParams));
 
 
         System.out.println("----------------------CREATE VIRTUAL ACCOUNT-------------------------");
@@ -104,7 +103,7 @@ public class CNGNManger {
                 "korapay",
                 "123"
         );
-        System.out.println("Create Virtual Account : " + cngnManger.createVirtualAccount(mintParams));
+        System.out.println("Create Virtual Account : " + cngnManager.createVirtualAccount(mintParams));
 
 
         System.out.println("----------------------REDEEM ASSETS-------------------------");
@@ -114,7 +113,7 @@ public class CNGNManger {
                 "1234567890",
                 true
         );
-        System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
+        System.out.println("Redeem Assets : " + cngnManager.redeemAssets(redeemAssetParams));
 
         System.out.println("----------------------WITHDRAW-------------------------");
         IWithdrawParams withdrawParams = new IWithdrawParams(
@@ -123,7 +122,7 @@ public class CNGNManger {
                 Network.BSC,
                 true
         );
-        System.out.println("Withdraw : " + cngnManger.withdraw(withdrawParams));
+        System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
 
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
         UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
@@ -131,14 +130,14 @@ public class CNGNManger {
                 "Example account",
                 "1234567890"
         );
-        updateExternalAccountParams.addWalletAddress("bscAddress","0x3d8e....");
-        updateExternalAccountParams.addWalletAddress("xbnAddress","0x3d8e2.....");
+        updateExternalAccountParams.addWalletAddress("bscAddress", "0x3d8e....");
+        updateExternalAccountParams.addWalletAddress("xbnAddress", "0x3d8e2.....");
         //add other address
 
-        System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(updateExternalAccountParams));
+        System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
 
         System.out.println("----------------------GET BANKS-------------------------");
-        System.out.println("Get Banks : " + cngnManger.getBanks());
+        System.out.println("Get Banks : " + cngnManager.getBanks());
     }
 }
 

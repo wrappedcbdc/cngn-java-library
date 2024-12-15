@@ -26,11 +26,9 @@ public class ServiceController {
                 .header("Authorization", "Bearer " + secrets.getApiKey())
                 .url(URL)
                 .build();
-
         try (Response response = client.newCall(request).execute()) {
             String resultStr = response.body().string();
             if (response.code() != 200) {
-                // Attempt to parse the response as a JSON object or array
                 try {
                     return new JSONArray().put(new JSONObject(resultStr));
                 } catch (JSONException e) {
@@ -43,6 +41,34 @@ public class ServiceController {
             return new JSONArray().put(new JSONObject().put("exception", "Network error: " + e.getMessage()));
         } catch (Exception e) {
             return new JSONArray().put(new JSONObject().put("exception", "Unexpected error: " + e.getMessage()));
+        }
+    }
+
+    public static JSONObject makeCallObject(String URL, Secrets secrets) {
+        if (isNull(secrets)) {
+            return new JSONObject().put("exception", "Invalid merchant service details");
+        }
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .header("Authorization", "Bearer " + secrets.getApiKey())
+                .url(URL)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            String resultStr = response.body().string();
+            if (response.code() != 200) {
+                try {
+                    return new JSONObject(resultStr);
+                } catch (JSONException e) {
+                    return new JSONObject().put("error", resultStr);
+                }
+            } else {
+                return parseSuccessResponseGETS(resultStr, secrets.getPrivateKey());
+            }
+        } catch (IOException e) {
+            return new JSONObject().put("exception", "Network error: " + e.getMessage());
+        } catch (Exception e) {
+            return new JSONObject().put("exception", "Unexpected error: " + e.getMessage());
         }
     }
 
@@ -127,6 +153,12 @@ public class ServiceController {
         JSONObject responseData = new JSONObject(resultStr);
         String encryptedData = responseData.getString("data");
         return new JSONArray(Ed25519Crypto.decryptWithPrivateKey(privateKey, encryptedData));
+    }
+
+    private static JSONObject parseSuccessResponseGETS(String resultStr, String privateKey) throws Exception {
+        JSONObject responseData = new JSONObject(resultStr);
+        String encryptedData = responseData.getString("data");
+        return new JSONObject(Ed25519Crypto.decryptWithPrivateKey(privateKey, encryptedData));
     }
 
     private static JSONObject parseSuccessResponsePOST(String resultStr, String privateKey) throws Exception {
