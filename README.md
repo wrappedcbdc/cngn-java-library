@@ -174,18 +174,13 @@ System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParam
 #### Update Business
 
 ```java
-UpdateExternalAccountParams.WalletAddress walletAddress = new UpdateExternalAccountParams.WalletAddress(
-"" //bscAddress or any other chain
-);
-        UpdateExternalAccountParams.BankDetails bankDetails = new UpdateExternalAccountParams.BankDetails(
-"Test Bank", //bankName
- "Test Account", //bankAccountName
- "1234567890" //bankAccountNumber
-
-);
-
- UpdateExternalAccountParams params = new UpdateExternalAccountParams(walletAddress, bankDetails);
-System.out.println("Update External Accounts " + cngnManger.updateExternalAccounts(params));
+UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
+                "Test Bank",
+                "Example account",
+                "1234567890"
+        );
+        updateExternalAccountParams.addWalletAddress("bscAddress", "0x3d8e....");
+System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
 ```
 
 
@@ -199,6 +194,13 @@ IWithdrawParams withdrawParams = new IWithdrawParams(
         );
 System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
 
+```
+
+#### Verify Withdrawal Reference
+```java
+System.out.println("Withdraw : " + cngnManager.verifyWithdrawalReference(
+                "123-456-789-789405" //Transaction Reference 
+        ));
 ```
 
 
