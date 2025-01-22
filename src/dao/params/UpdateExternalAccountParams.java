@@ -24,7 +24,10 @@ public class UpdateExternalAccountParams {
 
     // Method to add a wallet address
     public void addWalletAddress(String type, String address) {
-        this.walletAddresses.add(Map.of(type, address));
+        if (this.walletAddresses.size() >= 1) {
+            throw new IllegalStateException("Only one wallet address is allowed.");
+        }
+        this.walletAddresses.add(Map.of(type, address)); // Add the new wallet address
     }
 
     // Method to create JSON object

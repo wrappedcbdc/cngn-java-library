@@ -29,6 +29,7 @@ public class CNGNManager {
         return ServiceController.makeCalls(GET_BANKS, secrets);
     }
 
+
     public JSONObject swap(SwapParams swapParams) {
         JSONObject payload = new JSONObject();
         payload.put("originNetwork", swapParams.getOriginatorNetwork().toString().toLowerCase());
@@ -53,9 +54,12 @@ public class CNGNManager {
         payload.put("address", withdrawParams.getAddress());
         payload.put("network", withdrawParams.getNetwork().toString().toLowerCase());
         payload.put("shouldSaveAddress", withdrawParams.isShouldSaveAddress());
-        return ServiceController.makeCalls(CREATE_VIRTUAL_ACCOUNT, secrets, payload);
+        return ServiceController.makeCalls(WITHDRAW, secrets, payload);
     }
 
+    public JSONArray verifyWithdrawalReference(String tnxRef) {
+        return ServiceController.makeCalls(VERIFY_WITHDRAWAL+tnxRef, secrets);
+    }
 
     public JSONObject redeemAssets(RedeemAssetParams redeemAssetParams) {
         JSONObject payload = new JSONObject();
@@ -124,6 +128,12 @@ public class CNGNManager {
         );
         System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
 
+        System.out.println("----------------------VERIFY WITHDRAWAL REFERENCE-------------------------");
+
+        System.out.println("Withdraw : " + cngnManager.verifyWithdrawalReference(
+                "123-456-789-789405"
+        ));
+
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
         UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
                 "Test Bank",
@@ -131,7 +141,6 @@ public class CNGNManager {
                 "1234567890"
         );
         updateExternalAccountParams.addWalletAddress("bscAddress", "0x3d8e....");
-        updateExternalAccountParams.addWalletAddress("xbnAddress", "0x3d8e2.....");
         //add other address
 
         System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));

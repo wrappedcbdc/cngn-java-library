@@ -11,5 +11,7 @@ public class Constants {
     public static String REDEEM_ASSETS = BASE_URL+"/redeemAsset";
     public static String UPDATE_EXTERNAL_ACCOUNTS = BASE_URL+"/updateBusiness";
     public static String GET_BANKS = BASE_URL+"/banks";
+    public static String WITHDRAW = BASE_URL+"/withdraw";
+    public static String VERIFY_WITHDRAWAL = WITHDRAW+"/verify";
 
 }

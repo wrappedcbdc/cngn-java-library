@@ -7,7 +7,7 @@
     <!-- Project Coordinates -->
     <groupId>io.github.wrappedcbdc-cngn</groupId>
     <artifactId>cngn-java-library</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <!-- Metadata -->
@@ -61,7 +61,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Source Plugin -->
+            <!-- Source Plugin (Generates Source JAR) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -75,7 +75,7 @@
                 </executions>
             </plugin>
 
-            <!-- Javadoc Plugin -->
+            <!-- Javadoc Plugin (Generates Javadoc JAR) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -87,6 +87,36 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- Central Publishing Plugin -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+
+            <!-- GPG Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <defaultKeyring>true</defaultKeyring>
+                </configuration>
             </plugin>
         </plugins>
     </build>
