@@ -151,7 +151,7 @@ System.out.println(swapResult);
 #### Create Virtual Account
 
 ```java
-MintParams mintParams = new MintParams(
+CreateVirtualParams mintParams = new CreateVirtualParams(
 "korapay", //provider
 "123"  //bankCode
 );
@@ -174,20 +174,20 @@ System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParam
 #### Update Business
 
 ```java
-UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
-                "Test Bank",
+UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams();
+        updateExternalAccountParams.addWalletAddress("bscAddress", "0xB4............");
+        updateExternalAccountParams.updateBankDetails( "Test Bank",
                 "Example account",
-                "1234567890"
-        );
-        updateExternalAccountParams.addWalletAddress("bscAddress", "0x3d8e....");
-System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
+                "1234567890");
+
+ System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
 ```
 
 
 #### IWithdrawal
 ```java
 IWithdrawParams withdrawParams = new IWithdrawParams(
-                "1000", //amount
+                1000, //amount
                 "0x789...", //address
                 Network.BSC, //network
                 true //shouldSaveAddress
