@@ -40,7 +40,7 @@ public class CNGNManager {
     }
 
 
-    public JSONObject createVirtualAccount(MintParams mintParams) {
+    public JSONObject createVirtualAccount(CreateVirtualParams mintParams) {
         JSONObject payload = new JSONObject();
         payload.put("provider", mintParams.getProvider());
         payload.put("bank_code", mintParams.getBankCode());
@@ -57,8 +57,8 @@ public class CNGNManager {
         return ServiceController.makeCalls(WITHDRAW, secrets, payload);
     }
 
-    public JSONArray verifyWithdrawalReference(String tnxRef) {
-        return ServiceController.makeCalls(VERIFY_WITHDRAWAL+tnxRef, secrets);
+    public JSONObject verifyWithdrawalReference(String tnxRef) {
+        return ServiceController.makeCallObject(VERIFY_WITHDRAWAL+tnxRef, secrets);
     }
 
     public JSONObject redeemAssets(RedeemAssetParams redeemAssetParams) {
@@ -77,9 +77,9 @@ public class CNGNManager {
 
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
-        Secrets secrets = new Secrets("your-api-key",
-                "your-private-key",
-                "your-encryption-key");
+        Secrets secrets = new Secrets("",
+                "",
+                "");
 
         CNGNManager cngnManager = new CNGNManager(secrets);
         System.out.println("----------------------BALANCE-------------------------");
@@ -103,7 +103,7 @@ public class CNGNManager {
 
 
         System.out.println("----------------------CREATE VIRTUAL ACCOUNT-------------------------");
-        MintParams mintParams = new MintParams(
+        CreateVirtualParams mintParams = new CreateVirtualParams(
                 "korapay",
                 "123"
         );
@@ -121,27 +121,26 @@ public class CNGNManager {
 
         System.out.println("----------------------WITHDRAW-------------------------");
         IWithdrawParams withdrawParams = new IWithdrawParams(
-                "1000",
-                "0x789...",
-                Network.BSC,
-                true
+                100,
+                "0x8867D4efC159Cc7abEd4f700b2475B67bD11d0c8",
+                Network.ATC,
+                false
         );
         System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
 
         System.out.println("----------------------VERIFY WITHDRAWAL REFERENCE-------------------------");
 
-        System.out.println("Withdraw : " + cngnManager.verifyWithdrawalReference(
-                "123-456-789-789405"
+        System.out.println("Verify Withdrawal Reference : " + cngnManager.verifyWithdrawalReference(
+                "52038cb7-a6da-41d0-a9d1-d28f89e627a0"
         ));
 
+
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
-        UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams(
-                "Test Bank",
+        UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams();
+        updateExternalAccountParams.addWalletAddress("bscAddress", "0xB438ed3f95d5004067A24c21D7F028052f66BF77");
+        updateExternalAccountParams.updateBankDetails( "Test Bank",
                 "Example account",
-                "1234567890"
-        );
-        updateExternalAccountParams.addWalletAddress("bscAddress", "0x3d8e....");
-        //add other address
+                "1234567890");
 
         System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
 

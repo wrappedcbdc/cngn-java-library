@@ -22,6 +22,23 @@ public class UpdateExternalAccountParams {
         this.bankAccountNumber = bankAccountNumber;
     }
 
+
+    public JSONObject updateBankDetails(String bankName,String bankAccountName, String bankAccountNumber){
+        JSONObject jsonObject = new JSONObject();
+        JSONObject bankDetails = new JSONObject();
+        bankDetails.put("bankName", bankName);
+        bankDetails.put("bankAccountName", bankAccountName);
+        bankDetails.put("bankAccountNumber", bankAccountNumber);
+
+        jsonObject.put("bankDetails", bankDetails);
+
+        return jsonObject;
+    }
+
+    public UpdateExternalAccountParams() {
+        this.walletAddresses = new ArrayList<>();
+    }
+
     // Method to add a wallet address
     public void addWalletAddress(String type, String address) {
         if (this.walletAddresses.size() >= 1) {

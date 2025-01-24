@@ -7,7 +7,7 @@
     <!-- Project Coordinates -->
     <groupId>io.github.wrappedcbdc-cngn</groupId>
     <artifactId>cngn-java-library</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
 
     <!-- Metadata -->

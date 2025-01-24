@@ -5,12 +5,12 @@ import util.Network;
 
 public class IWithdrawParams {
 
-    String amount;
+    double amount;
     String address;
     Network network;
     boolean shouldSaveAddress;
 
-    public IWithdrawParams(String amount, String address, Network network, boolean shouldSaveAddress) {
+    public IWithdrawParams(double amount, String address, Network network, boolean shouldSaveAddress) {
         this.amount = amount;
         this.address = address;
         this.network = network;
@@ -23,11 +23,11 @@ public class IWithdrawParams {
 
 
 
-    public String getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
