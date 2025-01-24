@@ -77,9 +77,9 @@ public class CNGNManager {
 
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
-        Secrets secrets = new Secrets("",
-                "",
-                "");
+        Secrets secrets = new Secrets( "your-api-key",
+    "your-private-key",
+    "your-encryption-key");
 
         CNGNManager cngnManager = new CNGNManager(secrets);
         System.out.println("----------------------BALANCE-------------------------");
@@ -96,7 +96,7 @@ public class CNGNManager {
         System.out.println("----------------------SWAP-------------------------");
         SwapParams swapParams = new SwapParams(
                 Network.BSC,
-                "0x3d8e27756d784274C3C4CfeBCdFb2C096eE3cD0b",
+                "0x3d8e2.........................",
                 Network.ETH,
                 "https://your-callback-url.com");
         System.out.println("Swap : " + cngnManager.swap(swapParams));
@@ -122,7 +122,7 @@ public class CNGNManager {
         System.out.println("----------------------WITHDRAW-------------------------");
         IWithdrawParams withdrawParams = new IWithdrawParams(
                 100,
-                "0x8867D4efC159Cc7abEd4f700b2475B67bD11d0c8",
+                "0x8867D.................",
                 Network.ATC,
                 false
         );
@@ -137,7 +137,7 @@ public class CNGNManager {
 
         System.out.println("----------------------UPDATE EXTERNAL ACCOUNTS-------------------------");
         UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams();
-        updateExternalAccountParams.addWalletAddress("bscAddress", "0xB438ed3f95d5004067A24c21D7F028052f66BF77");
+        updateExternalAccountParams.addWalletAddress("bscAddress", "0xB4......................................");
         updateExternalAccountParams.updateBankDetails( "Test Bank",
                 "Example account",
                 "1234567890");
