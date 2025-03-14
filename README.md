@@ -135,7 +135,7 @@ System.out.println(balance);
 System.out.println("Fetch Transaction History : " + cngnManager.getTransactionHistory(transactionParams));
 ```
 
-#### Swap Between Chains
+#### Bridge Between Chains
 
 ```java
 SwapParams swapParams = new SwapParams(
