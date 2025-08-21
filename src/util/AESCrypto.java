@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,8 +14,8 @@ import java.util.Base64;
 
 public class AESCrypto {
 
-    private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
-    private static final int IV_LENGTH = 16;
+    private static final String ALGORITHM = "AES/GCM/NoPadding";
+    private static final int IV_LENGTH = 12; // GCM recommends 12 bytes
     private static final int KEY_LENGTH = 32;
 
     private static byte[] prepareKey(String key) throws NoSuchAlgorithmException {
@@ -33,9 +33,9 @@ public class AESCrypto {
 
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         SecretKeySpec secretKey = new SecretKeySpec(keyBuffer, "AES");
-        IvParameterSpec ivParams = new IvParameterSpec(iv);
+        GCMParameterSpec gcmParams = new GCMParameterSpec(128, iv); // 128-bit tag
 
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParams);
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParams);
 
         byte[] encrypted = cipher.doFinal(data.getBytes("UTF-8"));
 
@@ -48,9 +48,9 @@ public class AESCrypto {
 
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         SecretKeySpec secretKey = new SecretKeySpec(keyBuffer, "AES");
-        IvParameterSpec ivParams = new IvParameterSpec(iv);
+        GCMParameterSpec gcmParams = new GCMParameterSpec(128, iv);
 
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParams);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParams);
 
         byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedData.getContent()));
         return new String(decrypted, "UTF-8");
