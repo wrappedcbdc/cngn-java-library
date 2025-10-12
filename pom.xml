@@ -121,6 +121,94 @@
         </plugins>
     </build>
 
+    <!-- Dependencies inferred from bundled jars in lib/ -->
+    <dependencies>
+        <!-- HTTP client -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+
+        <!-- JSON handling -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
+
+        <!-- Gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+        <!-- web3j (Ethereum utilities) -->
+        <dependency>
+            <groupId>org.web3j</groupId>
+            <artifactId>core</artifactId>
+            <version>4.8.7</version>
+        </dependency>
+
+        <!-- bitcoinj (Base58 and crypto helpers) -->
+        <dependency>
+            <groupId>org.bitcoinj</groupId>
+            <artifactId>bitcoinj-core</artifactId>
+            <version>0.17-alpha5</version>
+        </dependency>
+
+        <!-- Muquit libsodium JNI wrapper (used by Ed25519Crypto) -->
+        <dependency>
+            <groupId>com.muquit</groupId>
+            <artifactId>libsodium-jna</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        
+        <!-- Stellar SDK for XBN (Bantu) support (network.lightsail fork as requested) -->
+        <dependency>
+            <groupId>network.lightsail</groupId>
+            <artifactId>stellar-sdk</artifactId>
+            <version>0.44.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.muquit</groupId>
+            <artifactId>libsodium-jni</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+
+        <!-- Apache commons, guava and others referenced in lib/ (compile scope) -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.1.0-android</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <!-- JUnit for tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <distributionManagement>
         <repository>
             <id>central</id>
