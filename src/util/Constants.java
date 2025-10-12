@@ -14,5 +14,6 @@ public class Constants {
     public static String GET_BANKS = BASE_URL+"/banks";
     public static String WITHDRAW = BASE_URL+"/withdraw";
     public static String VERIFY_WITHDRAWAL = WITHDRAW+"/verify/";
+    public static String SWAP_QUOTE = BASE_URL+"/swap-quote";
 
 }
