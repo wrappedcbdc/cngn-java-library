@@ -12,7 +12,14 @@ public class Ed25519Crypto {
     private static boolean isInitialized = false;
     private static void initialize() throws SodiumLibraryException {
         if (!isInitialized) {
-            SodiumLibrary.setLibraryPath("lib\\libsodium.dll");
+            String os = System.getProperty("os.name").toLowerCase();
+            String libPath = "lib/libsodium.dll";
+            if (os.contains("mac") || os.contains("darwin")) {
+                libPath = "lib/libsodium.dylib";
+            } else if (os.contains("nux") || os.contains("nix") || os.contains("aix")) {
+                libPath = "lib/libsodium.so";
+            }
+            SodiumLibrary.setLibraryPath(libPath);
             isInitialized = true;
         }
     }
