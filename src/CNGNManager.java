@@ -74,6 +74,15 @@ public class CNGNManager {
         return ServiceController.makeCalls(UPDATE_EXTERNAL_ACCOUNTS, secrets, updateExternalAccountParams.toJson());
     }
 
+    public JSONObject getSwapQuote(SwapQuoteParams swapQuoteParams) {
+        JSONObject payload = new JSONObject();
+        payload.put("amount", swapQuoteParams.getAmount());
+        payload.put("destinationAddress", swapQuoteParams.getDestinationAddress());
+        payload.put("originNetwork", swapQuoteParams.getOriginNetwork().toString().toLowerCase());
+        payload.put("destinationNetwork", swapQuoteParams.getDestinationNetwork().toString().toLowerCase());
+        return ServiceController.makeCalls(SWAP_QUOTE, secrets, payload);
+    }
+
 
     public static void main(String[] args) {
         System.out.println("----------------------BEGIN TEST-------------------------");
@@ -100,6 +109,16 @@ public class CNGNManager {
                 Network.ETH,
                 "https://your-callback-url.com");
         System.out.println("Swap : " + cngnManager.swap(swapParams));
+
+
+    System.out.println("----------------------SWAP QUOTE-------------------------");
+    SwapQuoteParams swapQuoteParams = new SwapQuoteParams(
+        2500,
+        "0x3d8e2.........................",
+        Network.BSC,
+        Network.ETH
+    );
+    System.out.println("Swap Quote : " + cngnManager.getSwapQuote(swapQuoteParams));
 
 
         System.out.println("----------------------CREATE VIRTUAL ACCOUNT-------------------------");
