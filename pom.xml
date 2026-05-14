@@ -160,7 +160,7 @@
         <dependency>
             <groupId>org.bitcoinj</groupId>
             <artifactId>bitcoinj-core</artifactId>
-            <version>0.17-alpha5</version>
+            <version>0.17.1</version>
         </dependency>
 
         <!-- Muquit libsodium JNI wrapper (used by Ed25519Crypto) -->
