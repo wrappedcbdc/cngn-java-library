@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <!-- Project Coordinates -->
     <groupId>io.github.wrappedcbdc-cngn</groupId>
     <artifactId>cngn-java-library</artifactId>
-    <version>1.0.4</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <!-- Metadata -->
     <name>cngn-java-library</name>
-    <description>cngn-java-library is a Java library for interacting with the cNGN API</description>
+    <description>Java SDK for the cNGN API</description>
     <url>https://github.com/wrappedcbdc/cngn-java-library</url>
-
-    <!-- Properties -->
     <properties>
-        <maven.compiler.source>20</maven.compiler.source>
-        <maven.compiler.target>20</maven.compiler.target>
+        <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jackson.version>2.22.3</jackson.version>
+        <bouncycastle.version>1.86</bouncycastle.version>
+        <junit.version>6.1.3</junit.version>
     </properties>
-
-    <!-- Licensing -->
     <licenses>
         <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
+            <name>MIT License</name>
+            <url>https://opensource.org/license/mit</url>
         </license>
     </licenses>
-
-    <!-- Developers -->
     <developers>
         <developer>
             <id>wrappedcbdc</id>
@@ -39,184 +30,93 @@
             <email>support@cngn.co</email>
         </developer>
     </developers>
-
-    <!-- Source Control Management -->
     <scm>
-        <connection>scm:git:git://github.com/wrappedcbdc/cngn-java-library.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:wrappedcbdc/cngn-java-library.git</developerConnection>
+        <connection>scm:git:https://github.com/wrappedcbdc/cngn-java-library.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/wrappedcbdc/cngn-java-library.git</developerConnection>
         <url>https://github.com/wrappedcbdc/cngn-java-library</url>
     </scm>
-
-    <!-- Build Configuration -->
-    <build>
-        <plugins>
-            <!-- Compiler Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>20</source>
-                    <target>20</target>
-                </configuration>
-            </plugin>
-
-            <!-- Source Plugin (Generates Source JAR) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Javadoc Plugin (Generates Javadoc JAR) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Central Publishing Plugin -->
-            <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.6.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <publishingServerId>central</publishingServerId>
-                </configuration>
-            </plugin>
-
-            <!-- GPG Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <defaultKeyring>true</defaultKeyring>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <!-- Dependencies inferred from bundled jars in lib/ -->
     <dependencies>
-        <!-- HTTP client -->
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.9.2</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okio</groupId>
-            <artifactId>okio</artifactId>
-            <version>3.4.0</version>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>${bouncycastle.version}</version>
         </dependency>
-
-        <!-- JSON handling -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
-        </dependency>
-
-        <!-- Gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.9</version>
-        </dependency>
-
-        <!-- web3j (Ethereum utilities) -->
         <dependency>
             <groupId>org.web3j</groupId>
-            <artifactId>core</artifactId>
-            <version>4.8.7</version>
-        </dependency>
-
-        <!-- bitcoinj (Base58 and crypto helpers) -->
-        <dependency>
-            <groupId>org.bitcoinj</groupId>
-            <artifactId>bitcoinj-core</artifactId>
-            <version>0.17-alpha5</version>
-        </dependency>
-
-        <!-- Muquit libsodium JNI wrapper (used by Ed25519Crypto) -->
-        <dependency>
-            <groupId>com.muquit</groupId>
-            <artifactId>libsodium-jna</artifactId>
-            <version>1.0.5</version>
-        </dependency>
-        
-        <!-- Stellar SDK for XBN (Bantu) support (network.lightsail fork as requested) -->
-        <dependency>
-            <groupId>network.lightsail</groupId>
-            <artifactId>stellar-sdk</artifactId>
-            <version>0.44.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.muquit</groupId>
-            <artifactId>libsodium-jni</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-
-        <!-- Apache commons, guava and others referenced in lib/ (compile scope) -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.1.0-android</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.14.0</version>
-        </dependency>
-
-        <!-- JUnit for tests -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.3</version>
-            <scope>test</scope>
+            <artifactId>crypto</artifactId>
+            <version>6.0.0</version>
+            <exclusions>
+                <exclusion><groupId>org.web3j</groupId><artifactId>abi</artifactId></exclusion>
+                <exclusion><groupId>tools.jackson.core</groupId><artifactId>jackson-databind</artifactId></exclusion>
+                <exclusion><groupId>io.consensys.protocols</groupId><artifactId>jc-kzg-4844</artifactId></exclusion>
+                <exclusion><groupId>io.consensys.tuweni</groupId><artifactId>tuweni-bytes</artifactId></exclusion>
+                <exclusion><groupId>io.consensys.tuweni</groupId><artifactId>tuweni-units</artifactId></exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.3</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>central</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <build>
+        <resources>
+            <resource><directory>src/main/resources</directory></resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes><include>LICENSE</include></includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+                <configuration><release>${maven.compiler.release}</release></configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.5.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.6.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.5.1</version>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>release-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions><execution><id>attach-sources</id><goals><goal>jar-no-fork</goal></goals></execution></executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.12.0</version>
+                        <executions><execution><id>attach-javadoc</id><goals><goal>jar</goal></goals></execution></executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
