@@ -1,319 +1,93 @@
 # cngn-java-library
 
-cngn-java-library is a Java library for interacting with the cNGN API. It provides a simple interface for various operations such as checking balance, swapping between chains, depositing for redemption, creating virtual accounts, generating wallet addresses, and more.
+Java 25 LTS SDK for the [cNGN API](https://docs.cngn.co).
 
-## Table of Contents
+## Requirements
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Networks](#networks)
-- [Available Methods](#available-methods)
-  - [CNGNManager Methods](#cngnmanager-methods)
-  - [WalletManager Methods](#walletmanager-methods)
-- [Testing](#testing)
-- [Error Handling](#error-handling)
-- [Types](#types)
-- [Security](#security)
-- [Contributing](#contributing)
-- [Support](#support)
-- [License](#license)
+- Java 25 or newer and Maven 3.9 or newer.
+- A `cngn_test_` or `cngn_live_` API key and the matching dashboard encryption key.
+- An unencrypted OpenSSH Ed25519 private key whose public half is registered with cNGN. Generate one with `ssh-keygen -t ed25519`.
 
-## Installation
+The client selects the API environment from the key prefix and rejects a conflicting explicit environment. The default API URL is `https://api.cngn.co/v1/api`. Custom URLs must use HTTPS; plain HTTP is accepted only for loopback integration tests. The private key stays inside the client process.
 
-To install cngn-java-library and its dependencies:
+## Build
 
-Add the following dependency to your `pom.xml` if using Maven:
+```sh
+mvn test
+```
+
+To use the SDK from your local Maven repository, run `mvn install` and add:
 
 ```xml
 <dependency>
-    <groupId>com.cngn</groupId>
+    <groupId>io.github.wrappedcbdc-cngn</groupId>
     <artifactId>cngn-java-library</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0-SNAPSHOT</version>
 </dependency>
-
 ```
 
-Or in your `build.gradle` if using Gradle:
+Run `mvn -Prelease-artifacts package` to build source and Javadoc JARs.
 
-```groovy
-implementation 'com.cngn:cngn-java-library:1.0.0'
-```
-
-## Usage
-
-First, import the necessary classes:
-
+## Quickstart
 
 ```java
-import com.cngn.CNGNManager;
-import com.cngn.WalletManager;
-import com.cngn.models.Secrets;
-import com.cngn.models.SwapParams;
-import com.cngn.models.DepositParams;
-import com.cngn.models.MintParams;
-import com.cngn.models.WhiteListAddressParams;
-import com.cngn.enums.Network;
-import org.json.JSONObject;
-import org.json.JSONArray;
-```
+import co.cngn.sdk.CngnClient;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-Then, create an instance of `CNGNManager` with your secrets:
-
-```java
-Secrets secrets = new Secrets(
-    "your-api-key",
-    "your-private-key",
-    "your-encryption-key"
-);
-
-CNGNManager manager = new CNGNManager(secrets);
-
-// Example: Get balance
-JSONArray balance = manager.getBalance();
-System.out.println(balance);
-```
-
-## Networks
-
-The library supports multiple blockchain networks, grouped by their underlying chain technology:
-
-### EVM (Ethereum Virtual Machine) Chains
-- `Network.BSC` - Binance Smart Chain Mainnet
-- `Network.ATC` - Asset Chain
-- `Network.ETH` - Ethereum Mainnet
-- `Network.MATIC` - Polygon (Previously Matic)
-  - `Network.base` - Base
-
-### Bantu (Stellar-based)
-- `Network.XBN` - XBN Chain
-
-### Tron
-- `Network.TRX` - Tron Mainnet
-
-Usage example with different chain types:
-```java
-// For EVM chain operations (BSC, ATC, ETH, MATIC)
-SwapParams evmSwapParams = new SwapParams(
-    100,                // amount
-    "0x1234...",       // EVM-compatible address
-    Network.BSC        // Network.base, Network.ATC, Network.ETH, Network.MATIC
-);
-
-// For Bantu (XBN) operations
-SwapParams xbnSwapParams = new SwapParams(
-    100,               // amount
-    "G....",           // Stellar-compatible address
-    Network.XBN
-);
-
-// For Tron operations
-SwapParams tronSwapParams = new SwapParams(
-    100,               // amount
-    "T....",           // Tron address format
-    Network.TRX
-);
-```
-
-## Available Methods
-
-### CNGNManager Methods
-
-#### Get Balance
-
-```java
-JSONArray balance = manager.getBalance();
-System.out.println(balance);
-```
-
-#### Get Transaction History
-
-```java
- TransactionParams transactionParams = new TransactionParams(
-                1, //page
-                2  //limit
-        );
-System.out.println("Fetch Transaction History : " + cngnManager.getTransactionHistory(transactionParams));
-```
-
-#### Bridge Between Chains
-
-```java
-SwapParams swapParams = new SwapParams(
-    100,                // amount
-    "0x1234...",       // address
-    Network.BSC        // network
-);
-JSONObject swapResult = manager.swapBetweenChains(swapParams);
-System.out.println(swapResult);
-```
-
-
-#### Create Virtual Account
-
-```java
-CreateVirtualParams mintParams = new CreateVirtualParams(
-"korapay", //provider
-"123"  //bankCode
-);
-JSONObject virtualAccount = manager.createVirtualAccount(mintParams);
-System.out.println(virtualAccount);
-```
-
-#### Redeem Asset
-
-```java
-RedeemAssetParams redeemAssetParams = new RedeemAssetParams(
-                1000,     //amount
-                "123",      //bankCode
-                "1234567890",   //accountNumber
-                true //saveDetails
-        );
-System.out.println("Redeem Assets : " + cngnManger.redeemAssets(redeemAssetParams));
-```
-
-#### Update Business
-
-```java
-UpdateExternalAccountParams updateExternalAccountParams = new UpdateExternalAccountParams();
-        updateExternalAccountParams.addWalletAddress("bscAddress", "0xB4............");
-        updateExternalAccountParams.updateBankDetails( "Test Bank",
-                "Example account",
-                "1234567890");
-
- System.out.println("Update External Accounts " + cngnManager.updateExternalAccounts(updateExternalAccountParams));
-```
-
-
-#### IWithdrawal
-```java
-IWithdrawParams withdrawParams = new IWithdrawParams(
-                1000, //amount
-                "0x789...", //address
-                Network.BSC, //network
-                true //shouldSaveAddress
-        );
-System.out.println("Withdraw : " + cngnManager.withdraw(withdrawParams));
-
-```
-
-#### Verify Withdrawal Reference
-```java
-System.out.println("Withdraw : " + cngnManager.verifyWithdrawalReference(
-                "123-456-789-789405" //Transaction Reference 
-        ));
-```
-
-
-#### Fetch Banks
-
-```java
-System.out.println("Get Banks : " + cngnManger.getBanks());
-```
-
-
-### WalletManager Methods
-
-#### Generate Wallet Address
-
-The `generateWalletAddress` method creates a new wallet address for any supported network. Each network type returns addresses in its native format.
-
-```java
-// EVM Chains (returns 0x-prefixed addresses)
-JSONObject bscWallet = WalletManager.generateWalletAddress(Network.BSC);    // BSC address
-JSONObject ethWallet = WalletManager.generateWalletAddress(Network.ETH);    // Ethereum address
-JSONObject maticWallet = WalletManager.generateWalletAddress(Network.MATIC); // Polygon address
-JSONObject atcWallet = WalletManager.generateWalletAddress(Network.ATC);    // Asset Chain address
-
-// Bantu/Stellar-based Chain (returns G-prefixed addresses)
-JSONObject xbnWallet = WalletManager.generateWalletAddress(Network.XBN);    // XBN address
-
-// Tron Chain (returns T-prefixed addresses)
-JSONObject tronWallet = WalletManager.generateWalletAddress(Network.TRX);   // Tron address
-```
-
-The response format for each generated wallet:
-```java
-public class WalletResponse {
-    private String address;     // The public address for the wallet
-    private Network network;    // The network this wallet is for
-    private String mnemonic;    // 12-word recovery phrase
-    private String privateKey;  // Private key for the wallet
+String privateKey = Files.readString(Path.of("/secure/path/cngn_ed25519"));
+try (CngnClient cngn = CngnClient.builder(
+        System.getenv("CNGN_API_KEY"),
+        System.getenv("CNGN_ENCRYPTION_KEY"),
+        privateKey).build()) {
+    System.out.println(cngn.getBalance());
+    System.out.println(cngn.getTransactions(1, 20));
 }
 ```
 
-Example response:
+Amounts use `BigDecimal` to preserve decimal precision. Responses use typed records in `ApiModels`. Network operations take IDs returned by `getNetworks()`.
+
+## API operations
+
+`CngnClient` provides `getBalance`, `getTransactions`, `iterateTransactions`, `getNetworks`, `getVirtualAccounts`, `createTemporaryVirtualAccount`, `redeemAsset`, `verifyBankAccount`, `getBanks`, `updateBankAccount`, `withdraw`, `verifyWithdrawal`, `getBridgeQuote`, `bridge`, `whitelistAddress`, and `getWhitelistedAddresses`.
+
+Money operations accept an idempotency key. Reuse a unique key for retries of the same logical operation:
+
 ```java
-// EVM wallet response
-{
-    "address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
-    "network": "ETH",
-    "mnemonic": "width craft decide...",
-    "privateKey": "0x..."
-}
+import java.math.BigDecimal;
 
-// XBN wallet response
-{
-    "address": "GBXYZABC...",
-    "network": "XBN",
-    "mnemonic": "width craft decide...",
-    "privateKey": "S..."
-}
-
-// Tron wallet response
-{
-    "address": "TRxYZABC...",
-    "network": "TRX",
-    "mnemonic": "width craft decide...",
-    "privateKey": "..."
-}
+var result = cngn.redeemAsset(
+        new BigDecimal("1000.00"), "058", "0123456789", false, "order-123-redeem");
 ```
 
-**Note:** Each network type has its own address format:
-- EVM chains (BSC, ETH, MATIC, ATC): `0x`-prefixed addresses
-- Bantu/XBN: `G`-prefixed addresses (Stellar format)
-- Tron: `T`-prefixed addresses
+The SDK retries transient network errors, 429s, and 5xx responses for reads. It retries a money operation only when that call has an idempotency key. A 429 waits 60 seconds before the next attempt. Configure request timeout and retry count through the builder.
 
-## Testing
+API, authentication, IP allowlist, permission, validation, rate limit, network, encryption, and decryption failures throw `CngnException`. Inspect `kind()`, `httpStatus()`, and `response()` for details.
 
-This project uses JUnit for testing. To run the tests, follow these steps:
+## Webhooks
 
-1. Run the test command:
+Capture the exact raw body, verify its `X-cNGN-Signature` header, then parse it:
 
-   ```bash
-   mvn test
-   ```
+```java
+import co.cngn.sdk.Webhooks;
 
-   This will run all tests in the `src/test/java` directory.
+if (!Webhooks.verify(rawBody, signatureHeader, signingSecret)) {
+    throw new SecurityException("Invalid cNGN webhook signature");
+}
+Webhooks.Event event = Webhooks.parse(rawBody);
+```
 
-### Test Structure
+`Webhooks.verify` expects `sha256=<hex>` and uses a constant time digest comparison. Your application must handle duplicate webhook deliveries safely.
 
-The tests are located in the `src/test/java` directory. They cover various aspects of the CNGNManager and WalletManager classes, including:
+## Local wallet helpers
 
-- API calls for different endpoints (GET and POST requests)
-- Encryption and decryption of data
-- Error handling for various scenarios
-- Wallet address generation for different networks
+`Wallets.generate(network)` makes a fresh 12 word BIP-39 wallet. `Wallets.fromMnemonic(network, phrase)` restores it. Supported networks are Ethereum, Base, BSC, Polygon, Tron, Solana, Stellar, and XBN. EVM networks use `m/44'/60'/0'/0/0`, Tron uses `m/44'/195'/0'/0/0`, Solana uses `m/44'/501'/0'/0'`, Stellar uses `m/44'/148'/0'`, and XBN uses `m/44'/703'/0'`.
 
-## Error Handling
+```java
+import co.cngn.sdk.wallet.Wallets;
 
-The library uses a custom error handling mechanism. All API errors are caught and thrown as `CNGNException` objects with descriptive messages.
+var wallet = Wallets.generate(Wallets.Network.BASE);
+boolean valid = Wallets.validateAddress(Wallets.Network.BASE, wallet.address());
+```
 
-## Types
-
-The library includes Java classes and interfaces for all parameters and return types. All models are defined in the `com.cngn.models` package for easy reference and maintenance.
-
-## Security
-
-This library uses AES encryption for request payloads and Ed25519 decryption for response data. Ensure that your `encryptionKey` and `privateKey` are kept secure.
-
-## Contributing
-
-Contributions, issues, and feature requests are welcome. Feel free to check [issues page](https://github.com/wrappedcbdc/cngn-java-library/issues) if you want to contribute.
-
-## Support
-
-If you have any questions or need help using the library, please open an issue in the GitHub repository.
-
-## License
-
-[ISC](https://choosealicense.com/licenses/isc/)
+The returned wallet contains its mnemonic and private key. Store them in a dedicated secret manager; its `toString()` redacts them.
